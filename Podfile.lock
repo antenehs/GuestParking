@@ -1,0 +1,24 @@
+PODS:
+  - BEMCheckBox (1.4.1)
+  - Disk (0.4.0)
+  - hpple (0.2.0)
+
+DEPENDENCIES:
+  - BEMCheckBox
+  - Disk
+  - hpple
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BEMCheckBox
+    - Disk
+    - hpple
+
+SPEC CHECKSUMS:
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
+  Disk: ef2956657d5bb56034b38b29b352170165226440
+  hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
+
+PODFILE CHECKSUM: 7a5d1d6c623f6d4028ac34dc55eecaf2ea1c8591
+
+COCOAPODS: 1.5.2
