@@ -37,6 +37,13 @@
 		663EFE1922189E6D0074DD55 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0122189E6D0074DD55 /* Page.swift */; };
 		663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0222189E6D0074DD55 /* HTMLForm.swift */; };
 		663EFE1B22189E6D0074DD55 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0322189E6D0074DD55 /* Renderer.swift */; };
+		66D7773E2303B57400D4FF5A /* PageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* PageManager.swift */; };
+		66D777412311DA1900D4FF5A /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777402311DA1900D4FF5A /* Guest.swift */; };
+		66D777432311DB5300D4FF5A /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777422311DB5300D4FF5A /* UserManager.swift */; };
+		66D777452311F47600D4FF5A /* GuestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777442311F47600D4FF5A /* GuestManager.swift */; };
+		66D777482313511B00D4FF5A /* DiskPersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777462313511B00D4FF5A /* DiskPersistenceStore.swift */; };
+		66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777472313511B00D4FF5A /* PersistentStore.swift */; };
+		66D7774C2313551000D4FF5A /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7774B2313551000D4FF5A /* FileUtils.swift */; };
 		A8D035109C116C33B408A2DA /* Pods_GuestParking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A9717DA36E19E1EBC2AA3C /* Pods_GuestParking.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +80,14 @@
 		663EFE0122189E6D0074DD55 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		663EFE0222189E6D0074DD55 /* HTMLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLForm.swift; sourceTree = "<group>"; };
 		663EFE0322189E6D0074DD55 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		66D7773A2303A75500D4FF5A /* Scripts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Scripts.js; sourceTree = "<group>"; };
+		66D7773D2303B57400D4FF5A /* PageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManager.swift; sourceTree = "<group>"; };
+		66D777402311DA1900D4FF5A /* Guest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
+		66D777422311DB5300D4FF5A /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		66D777442311F47600D4FF5A /* GuestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestManager.swift; sourceTree = "<group>"; };
+		66D777462313511B00D4FF5A /* DiskPersistenceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskPersistenceStore.swift; sourceTree = "<group>"; };
+		66D777472313511B00D4FF5A /* PersistentStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
+		66D7774B2313551000D4FF5A /* FileUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		68A9717DA36E19E1EBC2AA3C /* Pods_GuestParking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GuestParking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76A5F817951A2B1B2E5B3F98 /* Pods-GuestParking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GuestParking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GuestParking/Pods-GuestParking.debug.xcconfig"; sourceTree = "<group>"; };
 		F4399908CEFBB7C3FB4B8153 /* Pods-GuestParking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GuestParking.release.xcconfig"; path = "Pods/Target Support Files/Pods-GuestParking/Pods-GuestParking.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,12 +128,16 @@
 			children = (
 				663EFDA12214F6B00074DD55 /* AppDelegate.swift */,
 				663EFDA32214F6B00074DD55 /* HomeViewController.swift */,
+				663EFDB32214FAA10074DD55 /* CheckinViewController.swift */,
+				66D7773C2303B54500D4FF5A /* Managers */,
+				66D7773F2311D9F700D4FF5A /* Models */,
+				66D7774A231354F200D4FF5A /* Caching */,
 				663EFDB522189DBE0074DD55 /* ThirdParty */,
 				663EFDA52214F6B00074DD55 /* Main.storyboard */,
 				663EFDA82214F6B20074DD55 /* Assets.xcassets */,
 				663EFDAA2214F6B20074DD55 /* LaunchScreen.storyboard */,
 				663EFDAD2214F6B20074DD55 /* Info.plist */,
-				663EFDB32214FAA10074DD55 /* CheckinViewController.swift */,
+				66D7773A2303A75500D4FF5A /* Scripts.js */,
 			);
 			path = GuestParking;
 			sourceTree = "<group>";
@@ -176,6 +195,34 @@
 				663EFE0322189E6D0074DD55 /* Renderer.swift */,
 			);
 			path = WKZombie;
+			sourceTree = "<group>";
+		};
+		66D7773C2303B54500D4FF5A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				66D7773D2303B57400D4FF5A /* PageManager.swift */,
+				66D777422311DB5300D4FF5A /* UserManager.swift */,
+				66D777442311F47600D4FF5A /* GuestManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		66D7773F2311D9F700D4FF5A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				66D777402311DA1900D4FF5A /* Guest.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		66D7774A231354F200D4FF5A /* Caching */ = {
+			isa = PBXGroup;
+			children = (
+				66D777462313511B00D4FF5A /* DiskPersistenceStore.swift */,
+				66D777472313511B00D4FF5A /* PersistentStore.swift */,
+				66D7774B2313551000D4FF5A /* FileUtils.swift */,
+			);
+			path = Caching;
 			sourceTree = "<group>";
 		};
 		85F4B9FACCE92F2092A6C1A3 /* Pods */ = {
@@ -273,14 +320,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GuestParking/Pods-GuestParking-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework",
 				"${BUILT_PRODUCTS_DIR}/Disk/Disk.framework",
+				"${BUILT_PRODUCTS_DIR}/HTMLReader/HTMLReader.framework",
 				"${BUILT_PRODUCTS_DIR}/hpple/hpple.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BEMCheckBox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Disk.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTMLReader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hpple.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +362,7 @@
 			files = (
 				663EFE1422189E6D0074DD55 /* HTMLImage.swift in Sources */,
 				663EFE0A22189E6D0074DD55 /* Error.swift in Sources */,
+				66D777432311DB5300D4FF5A /* UserManager.swift in Sources */,
 				663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */,
 				663EFDA42214F6B00074DD55 /* HomeViewController.swift in Sources */,
 				663EFE0D22189E6D0074DD55 /* Snapshot.swift in Sources */,
@@ -325,6 +373,7 @@
 				663EFE1122189E6D0074DD55 /* HTMLButton.swift in Sources */,
 				663EFDB42214FAA10074DD55 /* CheckinViewController.swift in Sources */,
 				663EFE0B22189E6D0074DD55 /* Logger.swift in Sources */,
+				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				663EFE1022189E6D0074DD55 /* HTMLRedirectable.swift in Sources */,
 				663EFE1522189E6D0074DD55 /* HTMLElement.swift in Sources */,
 				663EFE0F22189E6D0074DD55 /* RenderOperation.swift in Sources */,
@@ -333,10 +382,15 @@
 				663EFE0822189E6D0074DD55 /* Definitions.swift in Sources */,
 				663EFE1B22189E6D0074DD55 /* Renderer.swift in Sources */,
 				663EFE0922189E6D0074DD55 /* HTMLFrame.swift in Sources */,
+				66D777452311F47600D4FF5A /* GuestManager.swift in Sources */,
+				66D777482313511B00D4FF5A /* DiskPersistenceStore.swift in Sources */,
+				66D777412311DA1900D4FF5A /* Guest.swift in Sources */,
 				663EFE1322189E6D0074DD55 /* Parser.swift in Sources */,
 				663EFE1922189E6D0074DD55 /* Page.swift in Sources */,
+				66D7774C2313551000D4FF5A /* FileUtils.swift in Sources */,
 				663EFE1822189E6D0074DD55 /* HTMLFetchable.swift in Sources */,
 				663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */,
+				66D7773E2303B57400D4FF5A /* PageManager.swift in Sources */,
 				663EFE1622189E6D0074DD55 /* HTMLTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

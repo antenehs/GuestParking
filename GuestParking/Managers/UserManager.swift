@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class UserManager {
+
+    static let shared = UserManager()
+
+    private init() {}
+
+    var parkingCode = "LCRVP"
+    var fullName = "Anteneh Sahledengel"
+    var aptNumber = "3115"
+}
+

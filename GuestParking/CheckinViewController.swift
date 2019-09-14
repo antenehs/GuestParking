@@ -11,56 +11,64 @@ import WebKit
 
 class CheckinViewController: UIViewController {
 
-    var webView: WKWebView = WKZombie.sharedInstance.webView
+    @IBOutlet var webView: WKWebView!
+    @IBOutlet var saveActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet var saveButton: UIButton!
+
+    var pageManager: PageManager!
+
+    var guest = Guest(firstName: "Abera",
+                      lastName: "Mola",
+                      vehicleYear: "2017",
+                      vehicleMake: "Kia",
+                      vehicleModel: "Sonata",
+                      vehicleColor: "white",
+                      vehiclePlateState: "Texas (TX)",
+                      vehiclePlateNumber: "TXC2304")
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        Logger.enabled = true
+        pageManager = PageManager(webView: webView)
+        pageManager.delegate = self
 
-        WKZombie.sharedInstance.snapshotHandler = { [weak self] snapshot in
-//            self?.imageView.image = snapshot.image
-        }
-
-        
-
-        checkGuestIn()
-
+        loadInitialPage()
     }
 
-    func checkGuestIn() {
+    func loadInitialPage() {
 
         let url = URL(string: "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx")!
 
-//        let browser = WKZombie.sharedInstance
-
-        open(url)
-            >>> get(by: .id("cphMainCell_txtRegCode_I"))
-            >>* setAttribute("value", value: "LCRVP")
-//            >>* get(by: .name("ctl00$cphMainCell$btnRegCode"))
-            >>> inspect()
-            >>> execute("document.getElementsByName('ctl00$cphMainCell$btnRegCode')[0].click()")
-            >>* inspect()
-            >>* getAll(by: .contains("id", "cphMainCell_ddlPermitType_DDD_L_LBI1T0"))
-            === handleResult
-
-//        func myOutput(result: JavaScriptResult?) {
-//            // handle result
-//        }
-//
-//        browser.inspect
-
-//        >>> browser.snap
-//        === myOutput
-
+        let urlRequest = URLRequest(url: url)
+        webView.load(urlRequest)
     }
 
-    func handleResult(_ result: Result<[HTMLTableRow]>) {
-        switch result {
-        case .success:
-            print("Success")
-        case .error:
-            print("Error")
+    @IBAction func fillButtonTapped(_ sender: Any) {
+
+        pageManager.fillGuestDetails(for: guest)
+    }
+
+    @IBAction func saveGuestButtonTapped(_ sender: Any) {
+        saveActivityIndicator.startAnimating()
+        saveButton.setTitle("", for: .normal)
+        pageManager.saveForm { (success) in
+            // TODO: Show error
+            self.saveActivityIndicator.stopAnimating()
+            self.saveButton.setTitle("SAVE GUEST", for: .normal)
+        }
+    }
+}
+
+extension CheckinViewController: WKUIDelegate {
+
+}
+
+extension CheckinViewController: PageManagerDelegate {
+    func currentPageChangedTo(_ currentPage: RegistrationPage) {
+        if currentPage == .codeEntry {
+            pageManager.enterRegistrationCode()
+        } else if currentPage == .userDetail {
+            pageManager.fillGuestDetails(for: guest)
         }
     }
 }

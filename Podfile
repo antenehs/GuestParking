@@ -5,8 +5,9 @@ target 'GuestParking' do
   use_frameworks!
 
   pod 'Disk'
-  pod 'BEMCheckBox'
+#  pod 'BEMCheckBox'
 #  pod 'WKZombie'
   pod 'hpple'
+  pod 'HTMLReader'
 
 end
