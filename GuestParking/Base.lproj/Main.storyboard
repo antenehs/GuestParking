@@ -137,6 +137,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="CHECK-IN" id="e5i-Xf-hJM">
                         <barButtonItem key="backBarButtonItem" title=" " id="wTZ-kU-AcF"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="4Mx-Ns-EVJ">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="reloadGuests" destination="BYZ-38-t0r" id="hRL-rB-yx5"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="on7-Cy-VcN" id="DHi-5H-sJg"/>

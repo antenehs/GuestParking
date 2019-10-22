@@ -27,7 +27,7 @@ class HomeViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = false
     }
 
-    func reloadGuests() {
+    @IBAction func reloadGuests() {
         allGuests = Guest.allGuests()
 
         allGuests.sort { (g1, g2) -> Bool in
