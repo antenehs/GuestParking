@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B10EC235E5AEA007788E7 /* ParkingManager.swift */; };
+		661B10F0235E5CA6007788E7 /* ParkingBadgePageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */; };
 		663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFDA12214F6B00074DD55 /* AppDelegate.swift */; };
 		663EFDA42214F6B00074DD55 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFDA32214F6B00074DD55 /* HomeViewController.swift */; };
 		663EFDA72214F6B00074DD55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663EFDA52214F6B00074DD55 /* Main.storyboard */; };
@@ -37,7 +39,7 @@
 		663EFE1922189E6D0074DD55 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0122189E6D0074DD55 /* Page.swift */; };
 		663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0222189E6D0074DD55 /* HTMLForm.swift */; };
 		663EFE1B22189E6D0074DD55 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0322189E6D0074DD55 /* Renderer.swift */; };
-		66D7773E2303B57400D4FF5A /* PageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* PageManager.swift */; };
+		66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */; };
 		66D777412311DA1900D4FF5A /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777402311DA1900D4FF5A /* Guest.swift */; };
 		66D777432311DB5300D4FF5A /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777422311DB5300D4FF5A /* UserManager.swift */; };
 		66D777452311F47600D4FF5A /* GuestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777442311F47600D4FF5A /* GuestManager.swift */; };
@@ -48,7 +50,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		663EFD9E2214F6B00074DD55 /* GuestParking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestParking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		661B10EC235E5AEA007788E7 /* ParkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingManager.swift; sourceTree = "<group>"; };
+		661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingBadgePageManager.swift; sourceTree = "<group>"; };
+		663EFD9E2214F6B00074DD55 /* Guest Parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest Parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		663EFDA12214F6B00074DD55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		663EFDA32214F6B00074DD55 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		663EFDA62214F6B00074DD55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -81,7 +85,7 @@
 		663EFE0222189E6D0074DD55 /* HTMLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLForm.swift; sourceTree = "<group>"; };
 		663EFE0322189E6D0074DD55 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		66D7773A2303A75500D4FF5A /* Scripts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Scripts.js; sourceTree = "<group>"; };
-		66D7773D2303B57400D4FF5A /* PageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManager.swift; sourceTree = "<group>"; };
+		66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingPOAPageManager.swift; sourceTree = "<group>"; };
 		66D777402311DA1900D4FF5A /* Guest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
 		66D777422311DB5300D4FF5A /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		66D777442311F47600D4FF5A /* GuestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestManager.swift; sourceTree = "<group>"; };
@@ -105,6 +109,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		661B10EE235E5C85007788E7 /* PageManagers */ = {
+			isa = PBXGroup;
+			children = (
+				661B10EC235E5AEA007788E7 /* ParkingManager.swift */,
+				66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */,
+				661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */,
+			);
+			path = PageManagers;
+			sourceTree = "<group>";
+		};
 		663EFD952214F6B00074DD55 = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +132,7 @@
 		663EFD9F2214F6B00074DD55 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				663EFD9E2214F6B00074DD55 /* GuestParking.app */,
+				663EFD9E2214F6B00074DD55 /* Guest Parking.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -200,7 +214,7 @@
 		66D7773C2303B54500D4FF5A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				66D7773D2303B57400D4FF5A /* PageManager.swift */,
+				661B10EE235E5C85007788E7 /* PageManagers */,
 				66D777422311DB5300D4FF5A /* UserManager.swift */,
 				66D777442311F47600D4FF5A /* GuestManager.swift */,
 			);
@@ -261,7 +275,7 @@
 			);
 			name = GuestParking;
 			productName = GuestParking;
-			productReference = 663EFD9E2214F6B00074DD55 /* GuestParking.app */;
+			productReference = 663EFD9E2214F6B00074DD55 /* Guest Parking.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -361,6 +375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				663EFE1422189E6D0074DD55 /* HTMLImage.swift in Sources */,
+				661B10F0235E5CA6007788E7 /* ParkingBadgePageManager.swift in Sources */,
 				663EFE0A22189E6D0074DD55 /* Error.swift in Sources */,
 				66D777432311DB5300D4FF5A /* UserManager.swift in Sources */,
 				663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */,
@@ -375,6 +390,7 @@
 				663EFE0B22189E6D0074DD55 /* Logger.swift in Sources */,
 				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				663EFE1022189E6D0074DD55 /* HTMLRedirectable.swift in Sources */,
+				661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */,
 				663EFE1522189E6D0074DD55 /* HTMLElement.swift in Sources */,
 				663EFE0F22189E6D0074DD55 /* RenderOperation.swift in Sources */,
 				663EFE1222189E6D0074DD55 /* HTMLPage.swift in Sources */,
@@ -390,7 +406,7 @@
 				66D7774C2313551000D4FF5A /* FileUtils.swift in Sources */,
 				663EFE1822189E6D0074DD55 /* HTMLFetchable.swift in Sources */,
 				663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */,
-				66D7773E2303B57400D4FF5A /* PageManager.swift in Sources */,
+				66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */,
 				663EFE1622189E6D0074DD55 /* HTMLTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,7 +562,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ewketapps.GuestParking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Guest Parking";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -565,7 +581,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ewketapps.GuestParking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Guest Parking";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

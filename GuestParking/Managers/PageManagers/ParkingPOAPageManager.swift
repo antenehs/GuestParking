@@ -10,7 +10,7 @@ import Foundation
 import WebKit
 import HTMLReader
 
-enum RegistrationPage: Int {
+enum ParkingPOARegistrationPage: Int {
     case unknown = 0
     case codeEntry
     case permitSelection
@@ -31,7 +31,7 @@ enum RegistrationPage: Int {
     }
 }
 
-enum UserDetailInputField: String {
+fileprivate enum UserDetailInputField: String {
     case firstName = "cphMainCell_txtNewPermitFirstName"
     case lastName = "cphMainCell_txtNewPermitLastName"
     case residentName = "cphMainCell_txtNewPermitResidentName"
@@ -47,31 +47,42 @@ enum UserDetailInputField: String {
 }
 
 protocol PageManagerDelegate: class {
-    func currentPageChangedTo(_ currentPage: RegistrationPage)
+    func currentPageChangedTo(_ currentPage: ParkingPOARegistrationPage)
 }
 
-class PageManager: NSObject {
+class ParkingPOAPageManager: NSObject, PageManager {
 
     weak var webView: WKWebView!
     weak var delegate: PageManagerDelegate?
 
-    var currentPage = RegistrationPage.unknown
+    var currentPage = ParkingPOARegistrationPage.unknown
 
-    init(webView: WKWebView) {
+    var isDetailsPage: Bool {
+        return currentPage == .userDetail
+    }
+
+    required init(webView: WKWebView) {
         super.init()
 
         self.webView = webView
         self.webView.navigationDelegate = self
     }
 
-    func getCurrentPage(completion: @escaping (RegistrationPage) -> Void) {
+    func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void) {
+        let url = URL(string: "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx")!
+
+        let urlRequest = URLRequest(url: url)
+        webView.load(urlRequest)
+    }
+
+    func getCurrentPage(completion: @escaping (ParkingPOARegistrationPage) -> Void) {
 
         getPageSource { (htmlString) in
             guard let htmlString = htmlString else { completion(.unknown); return }
 
-            var currentPage = RegistrationPage.unknown
+            var currentPage = ParkingPOARegistrationPage.unknown
             // THE ORDER IS VERY IMPORTANT
-            for page in [RegistrationPage.codeEntry, RegistrationPage.userDetail, RegistrationPage.submition, RegistrationPage.permitSelection, RegistrationPage.confirmation] {
+            for page in [ParkingPOARegistrationPage.codeEntry, ParkingPOARegistrationPage.userDetail, ParkingPOARegistrationPage.submition, ParkingPOARegistrationPage.permitSelection, ParkingPOARegistrationPage.confirmation] {
                 if htmlString.contains(page.uniqueIdentifier) {
                     currentPage = page
                     break
@@ -131,28 +142,14 @@ class PageManager: NSObject {
 
         clickFirstButton(forName: "ctl00$cphMainCell$btnNewPermitSubmit")
     }
-
-    private func setValue(_ value: String, toFieldWithId id: String) {
-        webView.evaluateJavaScript("document.getElementById('\(id)').value = '\(value)'") { _, _ in }
-    }
-
-    private func clickFirstButton(forName name: String) {
-        webView.evaluateJavaScript("document.getElementsByName('\(name)')[0].click()") { _, _ in }
-    }
-
-    private func getPageSource(completion: @escaping (String?) -> Void) {
-        webView.evaluateJavaScript("document.documentElement.innerHTML") { (html, error) in
-            completion(html as? String)
-        }
-    }
 }
 
-extension PageManager: WKNavigationDelegate {
+extension ParkingPOAPageManager: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         getCurrentPage { page in
             if page != self.currentPage {
-                self.delegate?.currentPageChangedTo(page)
                 self.currentPage = page
+                self.delegate?.currentPageChangedTo(page)
 
                 print("Current Page: \(page)")
             }

@@ -14,8 +14,16 @@ class UserManager {
 
     private init() {}
 
+    var appartmentName = "801 Las Co Apartments - 801 Lake Carolyn Parkway"
+    var appartmentID = "95"
+
     var parkingCode = "LCRVP"
-    var fullName = "Anteneh Sahledengel"
     var aptNumber = "3115"
+    var firstName = "Anteneh"
+    var lastName = "Sahledengel"
+
+    var fullName: String {
+        return firstName + " " + lastName
+    }
 }
 

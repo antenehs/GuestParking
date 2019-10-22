@@ -11,6 +11,8 @@ import Foundation
 struct Guest: Codable {
     var firstName: String = ""
     var lastName: String = ""
+    var phoneNumber: String = ""
+    var emailAddress: String = ""
     var vehicleYear: String = ""
     var vehicleMake: String = ""
     var vehicleModel: String = ""
@@ -18,12 +20,29 @@ struct Guest: Codable {
     var vehiclePlateState: String = ""
     var vehiclePlateNumber: String = ""
 
+    var activePassMessage: String?
+    var activePassExpiryDate: Date?
+
+    var activePermitDisplayString: String? {
+        if firstName == "AUDI" { return nil }
+        if let date = activePassExpiryDate,
+            date.timeIntervalSinceNow > 0 {
+            return activePassMessage
+        } else {
+            return activePassMessage
+        }
+    }
+
     static func == (lhs: Guest, rhs: Guest) -> Bool {
         return lhs.vehiclePlateNumber == rhs.vehiclePlateNumber
     }
 
     func save() {
         DiskPersistanceStore.shared.save(object: self)
+    }
+
+    func delete() {
+        DiskPersistanceStore.shared.deleteObjectOf(type: Guest.self, primaryKey: primaryKey)
     }
 
     static func allGuests() -> [Guest] {

@@ -14,39 +14,62 @@ class CheckinViewController: UIViewController {
     @IBOutlet var webView: WKWebView!
     @IBOutlet var saveActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var saveButton: UIButton!
+    @IBOutlet var buttonsContainerView: UIView!
+    @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
     var pageManager: PageManager!
 
-    var guest = Guest(firstName: "Abera",
-                      lastName: "Mola",
-                      vehicleYear: "2017",
-                      vehicleMake: "Kia",
-                      vehicleModel: "Sonata",
-                      vehicleColor: "white",
-                      vehiclePlateState: "Texas (TX)",
-                      vehiclePlateNumber: "TXC2304")
+    var guest: Guest?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        pageManager = PageManager(webView: webView)
-        pageManager.delegate = self
+//        if guest == nil {
+//            guest = Guest()
+//            guest?.vehicleModel = "330i"
+//            guest?.vehicleMake = "BMW"
+//            guest?.vehicleYear = "2019"
+//            guest?.vehiclePlateNumber = "LLO2140"
+//            guest?.emailAddress = "someemial@gmail.com"
+//            guest?.phoneNumber = "2340239087"
+//        }
+
+        pageManager = ParkingBadgePageManager(webView: webView)
+//        pageManager.delegate = self
 
         loadInitialPage()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setupButtonsView()
+    }
+
     func loadInitialPage() {
+        pageManager.checkGuestIn(guest) { success in
 
-        let url = URL(string: "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx")!
+        }
+    }
 
-        let urlRequest = URLRequest(url: url)
-        webView.load(urlRequest)
+    func setupButtonsView() {
+        let show = pageManager.isDetailsPage
+
+        let bottomConstraintConstant = show ? 0 : (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) + buttonsContainerView.frame.height
+
+        buttonsViewBottomConstraint.constant = bottomConstraintConstant
+
+        UIView.animate(withDuration: show ? 0.3 : 0) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     @IBAction func fillButtonTapped(_ sender: Any) {
 
-        pageManager.fillGuestDetails(for: guest)
+//        pageManager.fillGuestDetails(for: guest ?? Guest())
     }
+
+    /*
 
     @IBAction func saveGuestButtonTapped(_ sender: Any) {
         saveActivityIndicator.startAnimating()
@@ -57,6 +80,8 @@ class CheckinViewController: UIViewController {
             self.saveButton.setTitle("SAVE GUEST", for: .normal)
         }
     }
+
+    */
 }
 
 extension CheckinViewController: WKUIDelegate {
@@ -64,11 +89,18 @@ extension CheckinViewController: WKUIDelegate {
 }
 
 extension CheckinViewController: PageManagerDelegate {
-    func currentPageChangedTo(_ currentPage: RegistrationPage) {
+    func currentPageChangedTo(_ currentPage: ParkingPOARegistrationPage) {
+
+        /*
+
+        setupButtonsView()
+
         if currentPage == .codeEntry {
             pageManager.enterRegistrationCode()
         } else if currentPage == .userDetail {
-            pageManager.fillGuestDetails(for: guest)
+            pageManager.fillGuestDetails(for: guest ?? Guest())
         }
+
+        */
     }
 }
