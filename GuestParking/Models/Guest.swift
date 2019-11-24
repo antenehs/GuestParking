@@ -25,9 +25,8 @@ struct Guest: Codable {
 
     var activePermitDisplayString: String? {
 //        if firstName == "AUDI" { return nil }
-        if let date = activePassExpiryDate,
-            date.timeIntervalSinceNow > 0 {
-            return activePassMessage
+        if let date = activePassExpiryDate {
+            return date.timeIntervalSinceNow > 0 ?  activePassMessage : nil
         } else {
             return activePassMessage
         }
