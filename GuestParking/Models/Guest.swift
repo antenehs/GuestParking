@@ -23,10 +23,17 @@ struct Guest: Codable {
     var activePassMessage: String?
     var activePassExpiryDate: Date?
 
-    var activePermitDisplayString: String? {
-//        if firstName == "AUDI" { return nil }
+    mutating func activePermitDisplayString() -> String? {
         if let date = activePassExpiryDate {
-            return date.timeIntervalSinceNow > 0 ?  activePassMessage : nil
+            if date.timeIntervalSinceNow > 0 {
+                return activePassMessage
+            } else {
+                activePassExpiryDate = nil
+                activePassMessage = nil
+                save()
+                
+                return nil
+            }
         } else {
             return activePassMessage
         }

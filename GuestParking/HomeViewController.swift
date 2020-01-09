@@ -10,6 +10,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet var emptyView: UIView!
+
     var allGuests = [Guest]()
 
     @IBOutlet weak var tableView: UITableView!
@@ -31,9 +33,10 @@ class HomeViewController: UIViewController {
         allGuests = Guest.allGuests()
 
         allGuests.sort { (g1, g2) -> Bool in
-            g1.activePermitDisplayString ?? "zzzz" < g2.activePermitDisplayString ?? "zzzz"
+            g1.activePassMessage ?? "zzzz" < g2.activePassMessage ?? "zzzz"
         }
 
+        tableView.backgroundView = allGuests.count == 0 ? emptyView : nil
         tableView.reloadData()
     }
 
@@ -72,7 +75,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             guest.delete()
 
             allGuests = Guest.allGuests()
-            tableView.reloadData()
+            reloadGuests()
         }
     }
 }
@@ -92,7 +95,7 @@ class GuestTableViewCell: UITableViewCell {
         nameLabel.text = (guest.firstName + " " + guest.lastName).capitalized
         detailLabel.text = guest.vehicleMake + " 𐄁 " + guest.vehicleModel + " 𐄁 " + guest.vehiclePlateNumber
 
-        if let activePassMessage = guest.activePermitDisplayString {
+        if let activePassMessage = self.guest.activePermitDisplayString() {
             activePassLabel.isHidden = false
             activePassLabel.text = activePassMessage
             activePassVerticalSpacingConstraint.isActive = true

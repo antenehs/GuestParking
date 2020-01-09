@@ -11,9 +11,4 @@ import Foundation
 class GuestManager {
 
     var persistenceStore = DiskPersistanceStore.shared
-
-//    func saveGuest() -> <#return type#> {
-//        <#function body#>
-//    }
-
 }

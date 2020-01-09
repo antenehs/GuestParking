@@ -39,6 +39,9 @@
 		663EFE1922189E6D0074DD55 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0122189E6D0074DD55 /* Page.swift */; };
 		663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0222189E6D0074DD55 /* HTMLForm.swift */; };
 		663EFE1B22189E6D0074DD55 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0322189E6D0074DD55 /* Renderer.swift */; };
+		667BD0DC238B45E000CE4E46 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667BD0DB238B45E000CE4E46 /* Settings.storyboard */; };
+		669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F323C6CF9A00F3E19F /* NotificationManager.swift */; };
+		669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F523C6D9AC00F3E19F /* SettingsViewController.swift */; };
 		66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */; };
 		66D777412311DA1900D4FF5A /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777402311DA1900D4FF5A /* Guest.swift */; };
 		66D777432311DB5300D4FF5A /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777422311DB5300D4FF5A /* UserManager.swift */; };
@@ -84,6 +87,9 @@
 		663EFE0122189E6D0074DD55 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		663EFE0222189E6D0074DD55 /* HTMLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLForm.swift; sourceTree = "<group>"; };
 		663EFE0322189E6D0074DD55 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		667BD0DB238B45E000CE4E46 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		669789F323C6CF9A00F3E19F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		669789F523C6D9AC00F3E19F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		66D7773A2303A75500D4FF5A /* Scripts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Scripts.js; sourceTree = "<group>"; };
 		66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingPOAPageManager.swift; sourceTree = "<group>"; };
 		66D777402311DA1900D4FF5A /* Guest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
@@ -143,13 +149,13 @@
 				663EFDA12214F6B00074DD55 /* AppDelegate.swift */,
 				663EFDA32214F6B00074DD55 /* HomeViewController.swift */,
 				663EFDB32214FAA10074DD55 /* CheckinViewController.swift */,
+				669789F523C6D9AC00F3E19F /* SettingsViewController.swift */,
 				66D7773C2303B54500D4FF5A /* Managers */,
 				66D7773F2311D9F700D4FF5A /* Models */,
 				66D7774A231354F200D4FF5A /* Caching */,
 				663EFDB522189DBE0074DD55 /* ThirdParty */,
-				663EFDA52214F6B00074DD55 /* Main.storyboard */,
+				667BD0DA238B45C400CE4E46 /* Storyboards */,
 				663EFDA82214F6B20074DD55 /* Assets.xcassets */,
-				663EFDAA2214F6B20074DD55 /* LaunchScreen.storyboard */,
 				663EFDAD2214F6B20074DD55 /* Info.plist */,
 				66D7773A2303A75500D4FF5A /* Scripts.js */,
 			);
@@ -211,12 +217,23 @@
 			path = WKZombie;
 			sourceTree = "<group>";
 		};
+		667BD0DA238B45C400CE4E46 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				663EFDAA2214F6B20074DD55 /* LaunchScreen.storyboard */,
+				663EFDA52214F6B00074DD55 /* Main.storyboard */,
+				667BD0DB238B45E000CE4E46 /* Settings.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		66D7773C2303B54500D4FF5A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				661B10EE235E5C85007788E7 /* PageManagers */,
 				66D777422311DB5300D4FF5A /* UserManager.swift */,
 				66D777442311F47600D4FF5A /* GuestManager.swift */,
+				669789F323C6CF9A00F3E19F /* NotificationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -319,6 +336,7 @@
 				663EFDAC2214F6B20074DD55 /* LaunchScreen.storyboard in Resources */,
 				663EFDA92214F6B20074DD55 /* Assets.xcassets in Resources */,
 				663EFE0522189E6D0074DD55 /* README.md in Resources */,
+				667BD0DC238B45E000CE4E46 /* Settings.storyboard in Resources */,
 				663EFE0422189E6D0074DD55 /* LICENSE in Resources */,
 				663EFDA72214F6B00074DD55 /* Main.storyboard in Resources */,
 			);
@@ -406,8 +424,10 @@
 				66D7774C2313551000D4FF5A /* FileUtils.swift in Sources */,
 				663EFE1822189E6D0074DD55 /* HTMLFetchable.swift in Sources */,
 				663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */,
+				669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */,
 				66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */,
 				663EFE1622189E6D0074DD55 /* HTMLTable.swift in Sources */,
+				669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +577,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FGEKQ9U6E7;
 				INFOPLIST_FILE = GuestParking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -576,6 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FGEKQ9U6E7;
 				INFOPLIST_FILE = GuestParking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -162,6 +162,10 @@ class ParkingBadgePageManager: NSObject, PageManager {
             if let expiryDateString = value as? String {
                 self.guest?.activePassMessage = "Expires On: \(expiryDateString)"
                 self.guest?.activePassExpiryDate = ParkingBadgePageManager.expiryTimeStringToDate(expiryDateString)
+                if let guest = self.guest,
+                    guest.activePassExpiryDate != nil {
+                    NotificationManager.scheduleNotification(for: guest)
+                }
                 self.guest?.save()
             }
             completion?(value as? String)
@@ -186,7 +190,8 @@ class ParkingBadgePageManager: NSObject, PageManager {
     }
 
     static let dateFormatter: DateFormatter = {
-        var dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateFormat = "MMMM dd yyyy, hh:mm a"
         return dateFormatter
     }()
@@ -219,10 +224,5 @@ extension ParkingBadgePageManager: WKNavigationDelegate {
         } else {
             decisionHandler(.allow)
         }
-
-//        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.vehicleMake.fieldId)').value") { value, _ in
-//            print("Car Make::: \(value)")
-//            decisionHandler(.allow)
-//        }
     }
 }
