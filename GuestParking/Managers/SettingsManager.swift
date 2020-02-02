@@ -7,3 +7,20 @@
 //
 
 import Foundation
+
+extension Notification.Name {
+    static let remindSettingValueChanged = Notification.Name("remindSettingValueChanged")
+}
+
+class SettingsManager {
+
+    static var remindExpiredPassed: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "remindExpiredPassed")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "remindExpiredPassed")
+            NotificationCenter.default.post(Notification(name: .remindSettingValueChanged))
+        }
+    }
+}

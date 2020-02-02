@@ -17,9 +17,11 @@ protocol PageManager: class {
     init(webView: WKWebView)
 
     func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void)
+    func completedCheckingIn(_ guest: Guest)
 }
 
 extension PageManager {
+
     func setValue(_ value: String, toFieldWithId id: String) {
         webView.evaluateJavaScript("document.getElementById('\(id)').value = '\(value)'") { _, _ in }
     }
@@ -41,6 +43,13 @@ extension PageManager {
     func getPageSource(completion: @escaping (String?) -> Void) {
         webView.evaluateJavaScript("document.documentElement.innerHTML") { (html, error) in
             completion(html as? String)
+        }
+    }
+
+    func completedCheckingIn(_ guest: Guest) {
+        if guest.activePassExpiryDate != nil,
+            SettingsManager.remindExpiredPassed {
+            NotificationManager.scheduleNotification(for: guest)
         }
     }
 }

@@ -19,6 +19,10 @@ class SettingsViewController: UIViewController {
 
         tableView.reloadData()
     }
+
+    @IBAction func reminderSwitchValueChanged(_ sender: UISwitch) {
+        SettingsManager.remindExpiredPassed = sender.isOn
+    }
 }
 
 
@@ -29,6 +33,8 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath)
+        cell.selectionStyle = .none
+        (cell.viewWithTag(1001) as? UISwitch)?.isOn = SettingsManager.remindExpiredPassed
 
         return cell
     }

@@ -49,6 +49,7 @@ struct Guest: Codable {
 
     func delete() {
         DiskPersistanceStore.shared.deleteObjectOf(type: Guest.self, primaryKey: primaryKey)
+        NotificationManager.removeNotification(for: self)
     }
 
     static func allGuests() -> [Guest] {

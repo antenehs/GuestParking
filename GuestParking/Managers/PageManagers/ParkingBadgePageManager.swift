@@ -162,11 +162,10 @@ class ParkingBadgePageManager: NSObject, PageManager {
             if let expiryDateString = value as? String {
                 self.guest?.activePassMessage = "Expires On: \(expiryDateString)"
                 self.guest?.activePassExpiryDate = ParkingBadgePageManager.expiryTimeStringToDate(expiryDateString)
-                if let guest = self.guest,
-                    guest.activePassExpiryDate != nil {
-                    NotificationManager.scheduleNotification(for: guest)
-                }
                 self.guest?.save()
+                if let guest = self.guest {
+                    self.completedCheckingIn(guest)
+                }
             }
             completion?(value as? String)
         }

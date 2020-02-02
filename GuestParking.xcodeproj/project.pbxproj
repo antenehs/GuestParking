@@ -39,6 +39,7 @@
 		663EFE1922189E6D0074DD55 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0122189E6D0074DD55 /* Page.swift */; };
 		663EFE1A22189E6D0074DD55 /* HTMLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0222189E6D0074DD55 /* HTMLForm.swift */; };
 		663EFE1B22189E6D0074DD55 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFE0322189E6D0074DD55 /* Renderer.swift */; };
+		6666599023E657BF0014716F /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6666598F23E657BF0014716F /* SettingsManager.swift */; };
 		667BD0DC238B45E000CE4E46 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667BD0DB238B45E000CE4E46 /* Settings.storyboard */; };
 		669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F323C6CF9A00F3E19F /* NotificationManager.swift */; };
 		669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F523C6D9AC00F3E19F /* SettingsViewController.swift */; };
@@ -87,6 +88,7 @@
 		663EFE0122189E6D0074DD55 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		663EFE0222189E6D0074DD55 /* HTMLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLForm.swift; sourceTree = "<group>"; };
 		663EFE0322189E6D0074DD55 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		6666598F23E657BF0014716F /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		667BD0DB238B45E000CE4E46 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		669789F323C6CF9A00F3E19F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		669789F523C6D9AC00F3E19F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				66D777422311DB5300D4FF5A /* UserManager.swift */,
 				66D777442311F47600D4FF5A /* GuestManager.swift */,
 				669789F323C6CF9A00F3E19F /* NotificationManager.swift */,
+				6666598F23E657BF0014716F /* SettingsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				663EFE0B22189E6D0074DD55 /* Logger.swift in Sources */,
 				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				663EFE1022189E6D0074DD55 /* HTMLRedirectable.swift in Sources */,
+				6666599023E657BF0014716F /* SettingsManager.swift in Sources */,
 				661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */,
 				663EFE1522189E6D0074DD55 /* HTMLElement.swift in Sources */,
 				663EFE0F22189E6D0074DD55 /* RenderOperation.swift in Sources */,

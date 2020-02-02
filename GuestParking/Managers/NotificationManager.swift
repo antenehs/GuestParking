@@ -9,12 +9,21 @@
 import Foundation
 import UserNotifications
 
-class NotificationManager {
+class NotificationManager: NSObject {
+
+    static let shared = NotificationManager()
 
     static let notificationCenter = UNUserNotificationCenter.current()
     static let options: UNAuthorizationOptions = [.alert, .sound, .badge]
 
     // MARK: Authorization
+
+    private override init() {
+        super.init()
+
+        NotificationManager.notificationCenter.delegate = self
+        observeRemindersChange()
+    }
 
     static func isNotificationsEnabled(completion: @escaping (Bool) -> Void) {
         notificationCenter.getNotificationSettings { settings in
@@ -67,16 +76,43 @@ class NotificationManager {
     }
 }
 
+extension NotificationManager: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+}
+
 extension NotificationManager {
+
+    func observeRemindersChange() {
+        NotificationCenter.default.addObserver(forName: .remindSettingValueChanged,
+                                               object: nil,
+                                               queue: .main) { _ in
+                                                self.reminderSettingsChanged()
+        }
+    }
+
+    func reminderSettingsChanged() {
+        if SettingsManager.remindExpiredPassed {
+            // add notifications for all passes
+            Guest.allGuests().filter ({ $0.activePassExpiryDate != nil }).forEach {
+                NotificationManager.scheduleNotification(for: $0)
+            }
+        } else {
+            // Remove all notificaitons
+            NotificationManager.removeAllNotifications()
+        }
+    }
 
     static func removeNotification(for guest: Guest) {
         NotificationManager.removeNotificationWithId(guest.notificationIdentifier)
     }
 
     static func scheduleNotification(for guest: Guest) {
-        // TODO: If notificaiton is enabled in settings
-        
-        guard let notificationRequest = guest.notificationRequest() else { return }
+        guard SettingsManager.remindExpiredPassed,
+              let notificationRequest = guest.notificationRequest() else { return }
 
         NotificationManager.scheduleNotification(notificationRequest)
     }
@@ -92,7 +128,7 @@ fileprivate extension Guest {
         guard let date = activePassExpiryDate,
             date.timeIntervalSinceNow > 0 else { return nil }
 
-        let content = UNMutableNotificationContent() // Содержимое уведомления
+        let content = UNMutableNotificationContent()
 
         content.title = "Guest parking pass expired."
         content.body = "Guess parking pass for vehicle plate number \(vehiclePlateNumber) has expired."

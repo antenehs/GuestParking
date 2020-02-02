@@ -142,7 +142,7 @@
                                 <action selector="reloadGuests" destination="BYZ-38-t0r" id="hRL-rB-yx5"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="person" catalog="system" id="wp6-Tx-ge3">
+                        <barButtonItem key="rightBarButtonItem" image="gear" catalog="system" id="wp6-Tx-ge3">
                             <connections>
                                 <segue destination="dZY-Lb-qj7" kind="show" id="t7M-Au-VPv"/>
                             </connections>
@@ -317,7 +317,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="person" catalog="system" width="64" height="58"/>
+        <image name="gear" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="4mx-Wl-gQn"/>
