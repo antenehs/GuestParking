@@ -31,7 +31,7 @@ enum ParkingPOARegistrationPage: Int {
     }
 }
 
-fileprivate enum UserDetailInputField: String {
+enum UserDetailInputField: String, FieldKey {
     case firstName = "cphMainCell_txtNewPermitFirstName"
     case lastName = "cphMainCell_txtNewPermitLastName"
     case residentName = "cphMainCell_txtNewPermitResidentName"
@@ -42,8 +42,6 @@ fileprivate enum UserDetailInputField: String {
     case vehicleColor = "cphMainCell_txtNewPermitColor"
     case vehiclePlateState = "cphMainCell_ddlNewPermitLicenseState_I"
     case vehiclePlateNumber = "cphMainCell_txtNewPermitLicenseNumber"
-
-    var fieldId: String { return rawValue }
 }
 
 protocol PageManagerDelegate: class {
@@ -51,6 +49,10 @@ protocol PageManagerDelegate: class {
 }
 
 class ParkingPOAPageManager: NSObject, PageManager {
+    typealias HostDetailFields = UserDetailInputField
+
+    typealias GuestDetailFields = UserDetailInputField
+
 
     weak var webView: WKWebView!
     weak var delegate: PageManagerDelegate?
@@ -120,7 +122,7 @@ class ParkingPOAPageManager: NSObject, PageManager {
     }
 
     func enterRegistrationCode() {
-        let registrationCode = UserManager.shared.parkingCode
+        let registrationCode = HostManager.shared.latestHost()?.parkingCode ?? ""
 
         setValue(registrationCode, toFieldWithId: "cphMainCell_txtRegCode_I")
         clickFirstButton(forName: "ctl00$cphMainCell$btnRegCode")
@@ -128,17 +130,17 @@ class ParkingPOAPageManager: NSObject, PageManager {
 
     func fillGuestDetails(for guest: Guest) {
 
-        setValue(guest.firstName, toFieldWithId: UserDetailInputField.firstName.fieldId)
-        setValue(guest.lastName, toFieldWithId: UserDetailInputField.lastName.fieldId)
-        setValue(guest.vehicleYear, toFieldWithId: UserDetailInputField.vehicleYear.fieldId)
-        setValue(guest.vehicleMake, toFieldWithId: UserDetailInputField.vehicleMake.fieldId)
-        setValue(guest.vehicleModel, toFieldWithId: UserDetailInputField.vehicleModel.fieldId)
-        setValue(guest.vehicleColor, toFieldWithId: UserDetailInputField.vehicleColor.fieldId)
-        setValue(guest.vehiclePlateState, toFieldWithId: UserDetailInputField.vehiclePlateState.fieldId)
+        setValue(guest.firstName ?? "", toFieldWithId: UserDetailInputField.firstName.fieldId)
+        setValue(guest.lastName ?? "", toFieldWithId: UserDetailInputField.lastName.fieldId)
+        setValue(guest.vehicleYear ?? "", toFieldWithId: UserDetailInputField.vehicleYear.fieldId)
+        setValue(guest.vehicleMake ?? "", toFieldWithId: UserDetailInputField.vehicleMake.fieldId)
+        setValue(guest.vehicleModel ?? "", toFieldWithId: UserDetailInputField.vehicleModel.fieldId)
+        setValue(guest.vehicleColor ?? "", toFieldWithId: UserDetailInputField.vehicleColor.fieldId)
+        setValue(guest.vehiclePlateState ?? "", toFieldWithId: UserDetailInputField.vehiclePlateState.fieldId)
         setValue(guest.vehiclePlateNumber, toFieldWithId: UserDetailInputField.vehiclePlateNumber.fieldId)
 
-        setValue(UserManager.shared.fullName, toFieldWithId: UserDetailInputField.residentName.fieldId)
-        setValue(UserManager.shared.aptNumber, toFieldWithId: UserDetailInputField.residentAptNumber.fieldId)
+        setValue(HostManager.shared.latestHost()?.fullName ?? "", toFieldWithId: UserDetailInputField.residentName.fieldId)
+        setValue(HostManager.shared.latestHost()?.appartmentNumber ?? "", toFieldWithId: UserDetailInputField.residentAptNumber.fieldId)
 
         clickFirstButton(forName: "ctl00$cphMainCell$btnNewPermitSubmit")
     }

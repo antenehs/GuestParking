@@ -92,8 +92,8 @@ class GuestTableViewCell: UITableViewCell {
     func setupFor(guest: Guest) {
         self.guest = guest
 
-        nameLabel.text = (guest.firstName + " " + guest.lastName).capitalized
-        detailLabel.text = guest.vehicleMake + " 𐄁 " + guest.vehicleModel + " 𐄁 " + guest.vehiclePlateNumber
+        nameLabel.text = ((guest.firstName ?? "") + " " + (guest.lastName ?? "")).capitalized
+        detailLabel.text = "\(guest.vehicleMake ?? "") 𐄁 \(guest.vehicleModel ?? "") 𐄁 \(guest.vehiclePlateNumber)"
 
         if let activePassMessage = self.guest.activePermitDisplayString() {
             activePassLabel.isHidden = false

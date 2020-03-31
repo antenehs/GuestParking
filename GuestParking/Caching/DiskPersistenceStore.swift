@@ -72,7 +72,6 @@ final class DiskPersistanceStore: PersistentStore {
         } catch {
             print("Failed to delete object:\(error.localizedDescription)")
         }
-        
     }
     
     func deleteObjectsOf<T>(type: T.Type, primaryKeys: [String]) where T: Codable & PersistenceModel {

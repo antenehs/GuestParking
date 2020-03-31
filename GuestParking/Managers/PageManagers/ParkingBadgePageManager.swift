@@ -11,20 +11,23 @@ import WebKit
 import HTMLReader
 
 class ParkingBadgePageManager: NSObject, PageManager {
+    typealias HostDetailFields = HostDetailInputField
+    typealias GuestDetailFields = GuestDetailInputField
 
-    private enum UserDetailInputField: String {
+    enum HostDetailInputField: String, FieldKey {
+        case firstName = "tenant_firstname"
+        case lastName = "tenant_lastname"
         case appartmentName = "apartment_complex_location"
         case appartmentID = "apartment_complex_id"
-        case residentFirstName = "tenant_firstname"
-        case residentLastName = "tenant_lastname"
-        case residentAptNumber = "tenant_number"
+        case appartmentNumber = "tenant_number"
+    }
+
+    enum GuestDetailInputField: String, FieldKey {
         case vehicleMake = "car_maker"
         case vehicleModel = "car_model"
-        case vehicleLicensePlate = "license_plate"
-        case guestPhoneNumber = "phone"
-        case guestEmailAddress = "email"
-
-        var fieldId: String { return rawValue }
+        case vehiclePlateNumber = "license_plate"
+        case phoneNumber = "phone"
+        case emailAddress = "email"
     }
 
     private enum ParkingBadgeRegistrationPage {
@@ -43,7 +46,9 @@ class ParkingBadgePageManager: NSObject, PageManager {
     }
 
     weak var webView: WKWebView!
+
     var guest: Guest?
+    private var host: Host?
 
     private var currentPage = ParkingBadgeRegistrationPage.unknown
 
@@ -60,6 +65,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
     func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void) {
         self.guest = guest
+        self.host = guest?.host ?? HostManager.shared.latestHost()
 
         let url = URL(string: "https://app.parkingbadge.com/guest")!
 
@@ -67,74 +73,33 @@ class ParkingBadgePageManager: NSObject, PageManager {
         webView.load(urlRequest)
     }
 
-    func fillGuestDetails() {
-
-        if let guest = self.guest {
-            setValue(guest.vehicleMake, toFieldWithId: UserDetailInputField.vehicleMake.fieldId)
-            setValue(guest.vehicleModel, toFieldWithId: UserDetailInputField.vehicleModel.fieldId)
-            setValue(guest.vehiclePlateNumber, toFieldWithId: UserDetailInputField.vehicleLicensePlate.fieldId)
-            setValue(guest.phoneNumber, toFieldWithId: UserDetailInputField.guestPhoneNumber.fieldId)
-            setValue(guest.emailAddress, toFieldWithId: UserDetailInputField.guestEmailAddress.fieldId)
+    func fillDetails() {
+        if let host = self.host {
+            fillHostDetails(host)
         }
 
-        setValue(UserManager.shared.appartmentName, toFieldWithId: UserDetailInputField.appartmentName.fieldId)
-        setValue(UserManager.shared.appartmentID, toFieldWithId: UserDetailInputField.appartmentID.fieldId)
-        setValue(UserManager.shared.firstName, toFieldWithId: UserDetailInputField.residentFirstName.fieldId)
-        setValue(UserManager.shared.lastName, toFieldWithId: UserDetailInputField.residentLastName.fieldId)
-        setValue(UserManager.shared.aptNumber, toFieldWithId: UserDetailInputField.residentAptNumber.fieldId)
-
-        if guest != nil {
+        if let guest = self.guest {
+            fillGuestDetails(guest)
             clickFirstButton(forClass: "btn btn-primary button")
         }
     }
 
     func saveForm(completion: @escaping (Bool) -> Void) {
-        guard currentPage == .userDetail else { completion(false); return }
 
-        var guest = Guest()
-
-        let group = DispatchGroup()
-
-        group.enter()
-        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.vehicleMake.fieldId)').value") { value, _ in
-            guest.vehicleMake = value as? String ?? ""
-            group.leave()
-        }
-
-        group.enter()
-        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.vehicleModel.fieldId)').value") { value, _ in
-            guest.vehicleModel = value as? String ?? ""
-            group.leave()
-        }
-
-        group.enter()
-        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.vehicleLicensePlate.fieldId)').value") { value, _ in
-            guest.vehiclePlateNumber = value as? String ?? ""
-            group.leave()
-        }
-
-        group.enter()
-        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.guestPhoneNumber.fieldId)').value") { value, _ in
-            guest.phoneNumber = value as? String ?? ""
-            group.leave()
-        }
-
-        group.enter()
-        self.webView.evaluateJavaScript("document.getElementById('\(UserDetailInputField.guestEmailAddress.fieldId)').value") { value, _ in
-            guest.emailAddress = value as? String ?? ""
-            group.leave()
-        }
-
-        group.notify(queue: .main) {
-            if guest.vehiclePlateNumber != "" {
+        saveForm { (host, guest) in
+            if var guest = guest, guest.vehiclePlateNumber != "" {
                 guest.firstName = guest.vehicleMake
                 guest.lastName = guest.vehicleModel
-                guest.save()
+                guest.host = host
 
+                guest.save()
                 self.guest = guest
+
+                host?.save()
+                self.host = host
             }
 
-            completion(guest.vehiclePlateNumber != "")
+            completion(true)
         }
     }
 
@@ -203,7 +168,7 @@ extension ParkingBadgePageManager: WKNavigationDelegate {
                 self.currentPage = page
 
                 switch page {
-                case .userDetail: self.fillGuestDetails()
+                case .userDetail: self.fillDetails()
                 case .completion: self.parseActivePassMessage()
                 default:
                     print("Unknown page!!!!")
@@ -215,7 +180,6 @@ extension ParkingBadgePageManager: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-
         if currentPage == .userDetail {
             saveForm { _ in
                 decisionHandler(.allow)

@@ -17,7 +17,7 @@ class CheckinViewController: UIViewController {
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    var pageManager: PageManager!
+    lazy var pageManager = { ParkingPOAPageManager(webView: webView) }()
 
     var guest: Guest?
 
@@ -34,7 +34,6 @@ class CheckinViewController: UIViewController {
 //            guest?.phoneNumber = "2340239087"
 //        }
 
-        pageManager = ParkingBadgePageManager(webView: webView)
 //        pageManager.delegate = self
 
         loadInitialPage()

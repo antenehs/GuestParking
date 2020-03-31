@@ -9,19 +9,21 @@
 import Foundation
 
 struct Guest: Codable {
-    var firstName: String = ""
-    var lastName: String = ""
-    var phoneNumber: String = ""
-    var emailAddress: String = ""
-    var vehicleYear: String = ""
-    var vehicleMake: String = ""
-    var vehicleModel: String = ""
-    var vehicleColor: String = ""
-    var vehiclePlateState: String = ""
+    var firstName: String?
+    var lastName: String?
+    var phoneNumber: String?
+    var emailAddress: String?
+    var vehicleYear: String?
+    var vehicleMake: String?
+    var vehicleModel: String?
+    var vehicleColor: String?
+    var vehiclePlateState: String?
     var vehiclePlateNumber: String = ""
 
     var activePassMessage: String?
     var activePassExpiryDate: Date?
+
+    var host: Host?
 
     mutating func activePermitDisplayString() -> String? {
         if let date = activePassExpiryDate {

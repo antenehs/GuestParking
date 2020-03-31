@@ -15,18 +15,12 @@ class HostManager {
     private init() {}
 
     func latestHost() -> Host? {
-        return Host()
-    }
+        let firstHost = Host.allHosts().first
 
-//    var appartmentName = "801 Las Co Apartments - 801 Lake Carolyn Parkway"
-//    var appartmentID = "95"
-//
-//    var parkingCode = "LCRVP"
-//    var aptNumber = "3115"
-//    var firstName = "Anteneh"
-//    var lastName = "Sahledengel"
-//
-//    var fullName: String {
-//        return firstName + " " + lastName
-//    }
+        #if DEBUG
+        if firstHost == nil { return Host() }
+        #endif
+
+        return firstHost
+    }
 }
