@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "32D9A0C6C554FC46CE3DFB0CF48CCA77"
+               BlueprintIdentifier = "24D5F77CE75C6E4DF079CD3597E690A7"
+               BuildableName = "HTMLReader.framework"
                BlueprintName = "HTMLReader"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "HTMLReader.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1691E754022217B52671D98A23731A08"
+               BlueprintIdentifier = "914C00A85014D51C5BD9DC8C6E07C79F"
+               BuildableName = "Disk.framework"
                BlueprintName = "Disk"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "Disk.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -8,7 +8,6 @@
 
 import Foundation
 import WebKit
-import HTMLReader
 
 class ParkingBadgePageManager: NSObject, PageManager {
     typealias HostDetailFields = HostDetailInputField
@@ -28,6 +27,12 @@ class ParkingBadgePageManager: NSObject, PageManager {
         case vehiclePlateNumber = "license_plate"
         case phoneNumber = "phone"
         case emailAddress = "email"
+    }
+
+    private struct Constants {
+        static let websiteEntryUrl = "https://app.parkingbadge.com/guest"
+        static let checkinButtonClass = "btn btn-primary button"
+        static let expiryDateFieldId = "end_at2"
     }
 
     private enum ParkingBadgeRegistrationPage {
@@ -52,10 +57,6 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
     private var currentPage = ParkingBadgeRegistrationPage.unknown
 
-    var isDetailsPage: Bool {
-        return false
-    }
-
     required init(webView: WKWebView) {
         super.init()
 
@@ -67,7 +68,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
         self.guest = guest
         self.host = guest?.host ?? HostManager.shared.latestHost()
 
-        let url = URL(string: "https://app.parkingbadge.com/guest")!
+        let url = URL(string: Constants.websiteEntryUrl)!
 
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
@@ -80,7 +81,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
         if let guest = self.guest {
             fillGuestDetails(guest)
-            clickFirstButton(forClass: "btn btn-primary button")
+            clickFirstButton(forClass: Constants.checkinButtonClass)
         }
     }
 
@@ -123,7 +124,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
     private func parseActivePassMessage(completion: ((String?) -> Void)? = nil) {
         guard currentPage == .completion  else { completion?(nil); return }
 
-        webView.evaluateJavaScript("document.getElementById('end_at2').innerHTML") { value, _ in
+        webView.evaluateJavaScript("document.getElementById('\(Constants.expiryDateFieldId)').innerHTML") { value, _ in
             if let expiryDateString = value as? String {
                 self.guest?.activePassMessage = "Expires On: \(expiryDateString)"
                 self.guest?.activePassExpiryDate = ParkingBadgePageManager.expiryTimeStringToDate(expiryDateString)

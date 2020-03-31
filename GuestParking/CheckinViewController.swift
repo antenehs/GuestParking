@@ -17,7 +17,7 @@ class CheckinViewController: UIViewController {
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    lazy var pageManager = { ParkingPOAPageManager(webView: webView) }()
+    lazy var pageManager = { ParkingBadgePageManager(webView: webView) }()
 
     var guest: Guest?
 
@@ -52,7 +52,7 @@ class CheckinViewController: UIViewController {
     }
 
     func setupButtonsView() {
-        let show = pageManager.isDetailsPage
+        let show = pageManager.isManualEntry || pageManager.isManualSaving
 
         let bottomConstraintConstant = show ? 0 : (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) + buttonsContainerView.frame.height
 

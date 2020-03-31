@@ -20,10 +20,10 @@ extension Encodable {
 }
 
 extension Decodable {
-    static func initFrom(dictionary: [AnyHashable: Any]) -> Self? {
-        let decoder = JSONDecoder()
-        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: []) else { return nil }
+    init?(dictionary: [AnyHashable: Any]) {
+        guard let data = try? JSONSerialization.data(withJSONObject: dictionary, options: []),
+            let decoded = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
 
-        return try? decoder.decode(Self.self, from: data)
+        self = decoded
     }
 }

@@ -57,10 +57,17 @@ class ParkingPOAPageManager: NSObject, PageManager {
     weak var webView: WKWebView!
     weak var delegate: PageManagerDelegate?
 
+    var guest: Guest?
+    private var host: Host?
+
     var currentPage = ParkingPOARegistrationPage.unknown
 
-    var isDetailsPage: Bool {
-        return currentPage == .userDetail
+    var isManualEntry: Bool {
+        return true
+    }
+
+    var isManualSaving: Bool {
+        return true
     }
 
     required init(webView: WKWebView) {
@@ -71,6 +78,9 @@ class ParkingPOAPageManager: NSObject, PageManager {
     }
 
     func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void) {
+        self.guest = guest
+        self.host = guest?.host ?? HostManager.shared.latestHost()
+
         let url = URL(string: "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx")!
 
         let urlRequest = URLRequest(url: url)
@@ -128,7 +138,8 @@ class ParkingPOAPageManager: NSObject, PageManager {
         clickFirstButton(forName: "ctl00$cphMainCell$btnRegCode")
     }
 
-    func fillGuestDetails(for guest: Guest) {
+    func fillDetails() {
+        guard let guest = self.guest else { return }
 
         setValue(guest.firstName ?? "", toFieldWithId: UserDetailInputField.firstName.fieldId)
         setValue(guest.lastName ?? "", toFieldWithId: UserDetailInputField.lastName.fieldId)

@@ -9,24 +9,7 @@
 import Foundation
 import WebKit
 
-protocol MirrorableEnum {}
-extension MirrorableEnum {
-    var mirror: (label: String, params: [String: Any]) {
-        get {
-            let reflection = Mirror(reflecting: self)
-            guard reflection.displayStyle == .enum,
-                let associated = reflection.children.first else {
-                    return ("\(self)", [:])
-            }
-            let values = Mirror(reflecting: associated.value).children
-            var valuesArray = [String: Any]()
-            for case let item in values where item.label != nil {
-                valuesArray[item.label!] = item.value
-            }
-            return (associated.label!, valuesArray)
-        }
-    }
-}
+// MARK: - FieldKey protocol
 
 protocol FieldKey: RawRepresentable, CaseIterable, MirrorableEnum {
     var fieldId: String { get }
@@ -34,33 +17,37 @@ protocol FieldKey: RawRepresentable, CaseIterable, MirrorableEnum {
 }
 
 extension FieldKey {
-    var caseName: String { return mirror.label }
     var modelProperty: String { return caseName }
 }
 
 extension FieldKey where RawValue == String {
-    var fieldId: String { return self.rawValue }
+    var fieldId: String { return rawValue }
 }
 
-
+// MARK: - PageManager protocol
 
 protocol PageManager: class {
 
     associatedtype HostDetailFields: FieldKey
     associatedtype GuestDetailFields: FieldKey
 
-    var isDetailsPage: Bool { get }
+    var isManualEntry: Bool { get }
+    var isManualSaving: Bool { get }
     var webView: WKWebView! { get }
 
     init(webView: WKWebView)
 
     func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void)
+    func fillDetails()
     func saveForm(completion: @escaping (Bool) -> Void)
     func completedCheckingIn(_ guest: Guest)
 }
 
 // MARK: -
 extension PageManager {
+    var isManualEntry: Bool { return false }
+
+    var isManualSaving: Bool { return false }
 
     func fillHostDetails(_ host: Host) {
         guard let hostDictionary = host.toDictionary() as? [String: Any] else { return }
@@ -102,8 +89,8 @@ extension PageManager {
         }
 
         group.notify(queue: .main) {
-            completion(Host.initFrom(dictionary: hostDictionary),
-                       Guest.initFrom(dictionary: guestDictionary))
+            completion(Host(dictionary: hostDictionary),
+                       Guest(dictionary: guestDictionary))
         }
 
     }

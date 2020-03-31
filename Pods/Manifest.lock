@@ -1,24 +1,21 @@
 PODS:
   - Disk (0.4.0)
-  - hpple (0.2.0)
-  - HTMLReader (2.1.3)
+  - HTMLReader (2.1.5)
 
 DEPENDENCIES:
   - Disk
-  - hpple
   - HTMLReader
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Disk
-    - hpple
+  trunk:
     - HTMLReader
 
 SPEC CHECKSUMS:
   Disk: ef2956657d5bb56034b38b29b352170165226440
-  hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
-  HTMLReader: 34449b95b7c8f50557e8e60a8d892487d4541ae2
+  HTMLReader: 8056b3418baad09718902a1b39361c63b14a894f
 
-PODFILE CHECKSUM: 9070271d62992e6e714fd4c9d96ad7000524f26c
+PODFILE CHECKSUM: 2ef76eb73f770156474f84d297640c262dadf1cb
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.8.4
