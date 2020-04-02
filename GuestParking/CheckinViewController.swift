@@ -46,7 +46,7 @@ class CheckinViewController: UIViewController {
 
     func loadInitialPage() {
         #if DEBUG
-        if guest == nil {
+        if false, guest == nil {
             guest = Guest(phoneNumber: "2340239087", emailAddress: "someemial@gmail.com", vehicleYear: "2019", vehicleMake: "BMW", vehicleModel: "M5", vehicleColor: "Red", vehiclePlateState: "TX", vehiclePlateNumber: "LLO2140", host: Host())
         }
         #endif

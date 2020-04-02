@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B10EC235E5AEA007788E7 /* ParkingManager.swift */; };
+		661B10ED235E5AEA007788E7 /* PageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B10EC235E5AEA007788E7 /* PageManager.swift */; };
 		661B10F0235E5CA6007788E7 /* ParkingBadgePageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */; };
 		663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFDA12214F6B00074DD55 /* AppDelegate.swift */; };
 		663EFDA42214F6B00074DD55 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFDA32214F6B00074DD55 /* HomeViewController.swift */; };
@@ -36,7 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		661B10EC235E5AEA007788E7 /* ParkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingManager.swift; sourceTree = "<group>"; };
+		661B10EC235E5AEA007788E7 /* PageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageManager.swift; sourceTree = "<group>"; };
 		661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingBadgePageManager.swift; sourceTree = "<group>"; };
 		663EFD9E2214F6B00074DD55 /* Guest Parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest Parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		663EFDA12214F6B00074DD55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		661B10EE235E5C85007788E7 /* PageManagers */ = {
 			isa = PBXGroup;
 			children = (
-				661B10EC235E5AEA007788E7 /* ParkingManager.swift */,
+				661B10EC235E5AEA007788E7 /* PageManager.swift */,
 				668B39582435738800DB9BAA /* Register2Park */,
 				668B39572435737100DB9BAA /* ParkingBadge */,
 				668B39562435735D00DB9BAA /* ParkingPOA */,
@@ -343,7 +343,7 @@
 				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				6683EAA92435A05C00ADB645 /* WKWebViewUtils.swift in Sources */,
 				6666599023E657BF0014716F /* SettingsManager.swift in Sources */,
-				661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */,
+				661B10ED235E5AEA007788E7 /* PageManager.swift in Sources */,
 				66D777452311F47600D4FF5A /* GuestManager.swift in Sources */,
 				668B39542433CDDB00DB9BAA /* Register2ParkPageManager.swift in Sources */,
 				66D777482313511B00D4FF5A /* DiskPersistenceStore.swift in Sources */,

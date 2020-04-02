@@ -93,7 +93,7 @@ class Register2ParkPageManager: NSObject, PageManager {
 
         let scriptSource = """
             $(document).on('click', '#\(Constants.searchAppartmentButtonId)', function() {
-                window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage({ \"#\(Constants.searchAppartmentButtonId)\" : $('#propertyName').val() });
+                window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage({ \"\(Constants.searchAppartmentButtonId)\" : $('#propertyName').val() });
             });
 
             $(document).on('click', '#\(Constants.confirmAppartmentButtonId)', function() {
@@ -107,7 +107,7 @@ class Register2ParkPageManager: NSObject, PageManager {
             });
 
             $(document).on('click', '#\(Constants.checkUserInButtonId)', function() {
-                window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage('#\(Constants.checkUserInButtonId)');
+                window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage('\(Constants.checkUserInButtonId)');
             });
 
             function selectProperty(propertyId) {
@@ -123,7 +123,7 @@ class Register2ParkPageManager: NSObject, PageManager {
         self.webView = WKWebView(frame: .zero, configuration: config)
         self.webView.navigationDelegate = self
 
-        repeatTimer = RepeatTimer(interval: 1.5) { [weak self] in self?.repeatTimerCalled() }
+        repeatTimer = RepeatTimer(interval: 2) { [weak self] in self?.repeatTimerCalled() }
     }
 
     deinit {
@@ -138,7 +138,9 @@ class Register2ParkPageManager: NSObject, PageManager {
 
         fillHostDetails(host)
 
-        webView.clickFirstButton(forId: Constants.searchAppartmentButtonId)
+        if guest != nil {
+            webView.clickFirstButton(forId: Constants.searchAppartmentButtonId)
+        }
     }
 
     func selectAppartmentFromSearch() {
@@ -146,13 +148,17 @@ class Register2ParkPageManager: NSObject, PageManager {
 
         webView.evaluateJavaScript("selectProperty('\(appartmentId)')") { _, _ in }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.webView.clickFirstButton(forId: Constants.confirmAppartmentButtonId)
+        if guest != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.webView.clickFirstButton(forId: Constants.confirmAppartmentButtonId)
+            }
         }
     }
 
     func selectParkingType() {
-        self.webView.clickFirstButton(forId: Constants.visitorButtonId)
+        if guest != nil {
+            self.webView.clickFirstButton(forId: Constants.visitorButtonId)
+        }
     }
 
     func fillGuestDetails() {
@@ -166,18 +172,13 @@ class Register2ParkPageManager: NSObject, PageManager {
         }
     }
 
-    private var savedAppartmentName: String?
+    private var savedAppartmentSearchTerm: String?
+    private var savedAppartmentId: String?
+
     func saveForm(completion: @escaping (Bool) -> Void) {
 
         getCurrentPage { page in
             switch page {
-            case .appartmentSearch:
-                self.webView.getValue(forId: HostDetailInputField.appartmentName.fieldId) { [weak self] name in
-                    self?.savedAppartmentName = name
-                    completion(true)
-                }
-            // case .appartmentSearchResult:
-                // TODO: Identify the selected list and save name
             case .userDetail:
                 self.saveForm { [weak self] (host, guest) in
                     if var guest = guest, guest.vehiclePlateNumber != "" {
@@ -185,7 +186,8 @@ class Register2ParkPageManager: NSObject, PageManager {
                         guest.lastName = guest.vehicleModel
 
                         if var host = host {
-                            host.appartmentName = self?.savedAppartmentName ?? self?.host?.appartmentName
+                            host.appartmentName = self?.savedAppartmentSearchTerm ?? self?.host?.appartmentName
+                            host.appartmentID = self?.savedAppartmentId ?? self?.host?.appartmentID
                             HostManager.shared.saveHost(host)
                             self?.host = host
                             guest.host = host
@@ -200,6 +202,20 @@ class Register2ParkPageManager: NSObject, PageManager {
             default:
                 completion(false)
             }
+        }
+    }
+
+    private func recievedJavascriptMessage(_ message: Any) {
+        print("Message recieved: \(message)")
+        if let dictMessage = message as? [String : String],
+            let firstPair = dictMessage.first {
+            if firstPair.key == Constants.searchAppartmentButtonId {
+                savedAppartmentSearchTerm = firstPair.value
+            } else if firstPair.key == Constants.confirmAppartmentButtonId {
+                savedAppartmentId = firstPair.value
+            }
+        } else if (message as? String) == Constants.checkUserInButtonId {
+            saveForm { _ in }
         }
     }
 
@@ -225,6 +241,8 @@ class Register2ParkPageManager: NSObject, PageManager {
     }
 
     private func repeatTimerCalled() {
+        guard guest != nil || host != nil else { return }
+
         getCurrentPage { [weak self] page in
             guard let self = self else { return }
 
@@ -251,12 +269,6 @@ class Register2ParkPageManager: NSObject, PageManager {
         }
     }
 
-    private func recievedJavascriptMessage(_ message: Any) {
-        print("Recieved message \(message as? [String : String] ?? [:])")
-    }
-
-    // MARK: - Helpers
-
     private func parseActivePassMessage(completion: ((String?) -> Void)? = nil) {
         guard currentPage == .completion  else { completion?(nil); return }
 
@@ -272,6 +284,8 @@ class Register2ParkPageManager: NSObject, PageManager {
             completion?(value as? String)
         }
     }
+
+    // MARK: - Helpers
 
     private static func expiryTimeStringToDate(_ dateString: String) -> Date? {
         // eg. October 22nd 2019, 7:17 pm
@@ -301,19 +315,8 @@ class Register2ParkPageManager: NSObject, PageManager {
 extension Register2ParkPageManager: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         // First load
-        // TODO: Only start timer in auto fill mode. i.e if guest is not nil
-        repeatTimer?.resume()
-    }
-
-    func webView(_ webView: WKWebView,
-                 decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if currentPage == .userDetail {
-            saveForm { _ in
-                decisionHandler(.allow)
-            }
-        } else {
-            decisionHandler(.allow)
+        if guest != nil || host != nil {
+            repeatTimer?.resume()
         }
     }
 }

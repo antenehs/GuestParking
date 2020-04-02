@@ -1,5 +1,5 @@
 //
-//  ParkingManager.swift
+//  PageManager.swift
 //  GuestParking
 //
 //  Created by Anteneh Sahledengel on 10/21/19.
