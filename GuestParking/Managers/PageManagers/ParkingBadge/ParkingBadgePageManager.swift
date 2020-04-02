@@ -50,7 +50,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
         }
     }
 
-    weak var webView: WKWebView!
+    var webView: WKWebView = WKWebView(frame: .zero)
 
     var websiteEntryUrl: String {
         return Constants.websiteEntryUrl
@@ -61,10 +61,10 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
     private var currentPage = ParkingBadgeRegistrationPage.unknown
 
-    required init(webView: WKWebView) {
+    override init() {
         super.init()
 
-        self.webView = webView
+        self.webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         self.webView.navigationDelegate = self
     }
 
@@ -75,7 +75,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
         if let guest = self.guest {
             fillGuestDetails(guest)
-            clickFirstButton(forClass: Constants.checkinButtonClass)
+            webView.clickFirstButton(forClass: Constants.checkinButtonClass)
         }
     }
 
@@ -102,7 +102,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
     private func getCurrentPage(completion: @escaping (ParkingBadgeRegistrationPage) -> Void) {
 
-        getPageSource { (htmlString) in
+        webView.getPageSource { (htmlString) in
             guard let htmlString = htmlString else { completion(.unknown); return }
 
             var currentPage = ParkingBadgeRegistrationPage.unknown
@@ -165,7 +165,7 @@ extension ParkingBadgePageManager: WKNavigationDelegate {
                 self.currentPage = page
 
                 print("Current Page: \(page)")
-                
+
                 switch page {
                 case .userDetail: self.fillDetails()
                 case .completion: self.parseActivePassMessage()

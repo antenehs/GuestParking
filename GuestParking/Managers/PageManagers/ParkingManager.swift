@@ -33,13 +33,11 @@ protocol PageManager: class {
 
     var isManualEntry: Bool { get }
     var isManualSaving: Bool { get }
-    var webView: WKWebView! { get }
+    var webView: WKWebView { get }
     var websiteEntryUrl: String { get }
 
     var guest: Guest? { get set }
     var host: Host? { get set }
-
-    init(webView: WKWebView)
 
     func startGuestCheckIn(_ guest: Guest?)
     func fillDetails()
@@ -67,7 +65,7 @@ extension PageManager {
         guard let hostDictionary = host.toDictionary() as? [String: Any] else { return }
 
         HostDetailFields.allCases.forEach { fieldKey in
-            setValue(hostDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
+            webView.setValue(hostDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
         }
     }
 
@@ -75,7 +73,7 @@ extension PageManager {
         guard let guestDictionary = guest.toDictionary() as? [String: Any] else { return }
 
         GuestDetailFields.allCases.forEach { fieldKey in
-            setValue(guestDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
+            webView.setValue(guestDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
         }
     }
 
@@ -86,7 +84,8 @@ extension PageManager {
 
         let group = DispatchGroup()
 
-        GuestDetailFields.allCases.forEach { fieldKey in
+        GuestDetailFields.allCases.forEach { [weak self] fieldKey in
+            guard let self = self else { return }
             group.enter()
             self.webView.evaluateJavaScript("document.getElementById('\(fieldKey.fieldId)').value") { value, _ in
                 guestDictionary[fieldKey.modelProperty] = value as? String ?? ""
@@ -94,7 +93,8 @@ extension PageManager {
             }
         }
 
-        HostDetailFields.allCases.forEach { fieldKey in
+        HostDetailFields.allCases.forEach { [weak self] fieldKey in
+            guard let self = self else { return }
             group.enter()
             self.webView.evaluateJavaScript("document.getElementById('\(fieldKey.fieldId)').value") { value, _ in
                 hostDictionary[fieldKey.modelProperty] = value as? String ?? ""
@@ -109,38 +109,12 @@ extension PageManager {
 
     }
 
+    func fillDetails() {}
+
     func completedCheckingIn(_ guest: Guest) {
         if guest.activePassExpiryDate != nil,
             SettingsManager.remindExpiredPassed {
             NotificationManager.scheduleNotification(for: guest)
-        }
-    }
-}
-
-// MARK: - HTML helpers
-extension PageManager {
-
-    func setValue(_ value: String, toFieldWithId id: String) {
-        webView.evaluateJavaScript("document.getElementById('\(id)').value = '\(value)'") { _, _ in }
-    }
-
-    func getValue(forId id: String, completion: @escaping (String?) -> Void) {
-        webView.evaluateJavaScript("document.getElementById('\(id)').value") { value, _ in
-            completion(value as? String ?? "")
-        }
-    }
-
-    func clickFirstButton(forName name: String) {
-        webView.evaluateJavaScript("document.getElementsByName('\(name)')[0].click()") { _, _ in }
-    }
-
-    func clickFirstButton(forClass elementClass: String) {
-        webView.evaluateJavaScript("document.getElementsByClassName('\(elementClass)')[0].click()") { _, _ in }
-    }
-
-    func getPageSource(completion: @escaping (String?) -> Void) {
-        webView.evaluateJavaScript("document.documentElement.innerHTML") { (html, error) in
-            completion(html as? String)
         }
     }
 }

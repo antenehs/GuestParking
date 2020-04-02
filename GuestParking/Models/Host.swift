@@ -9,13 +9,13 @@
 import Foundation
 
 struct Host: Codable {
-    var appartmentName: String? = "801 Las Co Apartments - 801 Lake Carolyn Parkway"
-    var appartmentID: String? = "95"
+    var appartmentName: String? = "Amli"
+    var appartmentID: String? = "11607"
 
     var parkingCode: String? = "LCRVP"
-    var appartmentNumber: String? = "3115"
-    var firstName: String? = "Anteneh"
-    var lastName: String? = "Sahledengel"
+    var appartmentNumber: String? = "6234"
+    var firstName: String? = "Someone"
+    var lastName: String? = "Living"
 
     var fullName: String {
         return (firstName ?? "") + " " + (lastName ?? "")

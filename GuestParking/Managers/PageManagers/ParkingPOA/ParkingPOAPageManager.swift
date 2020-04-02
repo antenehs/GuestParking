@@ -50,7 +50,7 @@ class ParkingPOAPageManager: NSObject, PageManager {
     typealias GuestDetailFields = UserDetailInputField
 
 
-    weak var webView: WKWebView!
+    var webView: WKWebView = WKWebView(frame: .zero)
 
     var guest: Guest?
     var host: Host?
@@ -69,16 +69,16 @@ class ParkingPOAPageManager: NSObject, PageManager {
         return true
     }
 
-    required init(webView: WKWebView) {
+    override init() {
         super.init()
 
-        self.webView = webView
+        self.webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         self.webView.navigationDelegate = self
     }
 
     func getCurrentPage(completion: @escaping (ParkingPOARegistrationPage) -> Void) {
 
-        getPageSource { (htmlString) in
+        webView.getPageSource { (htmlString) in
             guard let htmlString = htmlString else { completion(.unknown); return }
 
             var currentPage = ParkingPOARegistrationPage.unknown
@@ -97,7 +97,7 @@ class ParkingPOAPageManager: NSObject, PageManager {
     func saveForm(completion: @escaping (Bool) -> Void) {
         guard currentPage == .userDetail else { completion(false); return }
 
-        getPageSource { (htmlString) in
+        webView.getPageSource { (htmlString) in
             guard let htmlString = htmlString else { completion(false); return }
 
             let document = HTMLDocument(string: htmlString)
@@ -123,26 +123,26 @@ class ParkingPOAPageManager: NSObject, PageManager {
     func enterRegistrationCode() {
         let registrationCode = HostManager.shared.latestHost()?.parkingCode ?? ""
 
-        setValue(registrationCode, toFieldWithId: "cphMainCell_txtRegCode_I")
-        clickFirstButton(forName: "ctl00$cphMainCell$btnRegCode")
+        webView.setValue(registrationCode, toFieldWithId: "cphMainCell_txtRegCode_I")
+        webView.clickFirstButton(forName: "ctl00$cphMainCell$btnRegCode")
     }
 
     func fillDetails() {
         guard let guest = self.guest else { return }
 
-        setValue(guest.firstName ?? "", toFieldWithId: UserDetailInputField.firstName.fieldId)
-        setValue(guest.lastName ?? "", toFieldWithId: UserDetailInputField.lastName.fieldId)
-        setValue(guest.vehicleYear ?? "", toFieldWithId: UserDetailInputField.vehicleYear.fieldId)
-        setValue(guest.vehicleMake ?? "", toFieldWithId: UserDetailInputField.vehicleMake.fieldId)
-        setValue(guest.vehicleModel ?? "", toFieldWithId: UserDetailInputField.vehicleModel.fieldId)
-        setValue(guest.vehicleColor ?? "", toFieldWithId: UserDetailInputField.vehicleColor.fieldId)
-        setValue(guest.vehiclePlateState ?? "", toFieldWithId: UserDetailInputField.vehiclePlateState.fieldId)
-        setValue(guest.vehiclePlateNumber, toFieldWithId: UserDetailInputField.vehiclePlateNumber.fieldId)
+        webView.setValue(guest.firstName ?? "", toFieldWithId: UserDetailInputField.firstName.fieldId)
+        webView.setValue(guest.lastName ?? "", toFieldWithId: UserDetailInputField.lastName.fieldId)
+        webView.setValue(guest.vehicleYear ?? "", toFieldWithId: UserDetailInputField.vehicleYear.fieldId)
+        webView.setValue(guest.vehicleMake ?? "", toFieldWithId: UserDetailInputField.vehicleMake.fieldId)
+        webView.setValue(guest.vehicleModel ?? "", toFieldWithId: UserDetailInputField.vehicleModel.fieldId)
+        webView.setValue(guest.vehicleColor ?? "", toFieldWithId: UserDetailInputField.vehicleColor.fieldId)
+        webView.setValue(guest.vehiclePlateState ?? "", toFieldWithId: UserDetailInputField.vehiclePlateState.fieldId)
+        webView.setValue(guest.vehiclePlateNumber, toFieldWithId: UserDetailInputField.vehiclePlateNumber.fieldId)
 
-        setValue(HostManager.shared.latestHost()?.fullName ?? "", toFieldWithId: UserDetailInputField.residentName.fieldId)
-        setValue(HostManager.shared.latestHost()?.appartmentNumber ?? "", toFieldWithId: UserDetailInputField.residentAptNumber.fieldId)
+        webView.setValue(HostManager.shared.latestHost()?.fullName ?? "", toFieldWithId: UserDetailInputField.residentName.fieldId)
+        webView.setValue(HostManager.shared.latestHost()?.appartmentNumber ?? "", toFieldWithId: UserDetailInputField.residentAptNumber.fieldId)
 
-        clickFirstButton(forName: "ctl00$cphMainCell$btnNewPermitSubmit")
+        webView.clickFirstButton(forName: "ctl00$cphMainCell$btnNewPermitSubmit")
     }
 }
 

@@ -11,32 +11,29 @@ import WebKit
 
 class CheckinViewController: UIViewController {
 
-    @IBOutlet var webView: WKWebView!
+//    @IBOutlet var webView: WKWebView!
     @IBOutlet var saveActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var saveButton: UIButton!
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    lazy var pageManager = { Register2ParkPageManager(webView: webView) }()
+    var pageManager = Register2ParkPageManager()
 
     var guest: Guest?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let webView = pageManager.webView
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(webView)
 
-
-//        if guest == nil {
-//            guest = Guest()
-//            guest?.vehicleModel = "330i"
-//            guest?.vehicleMake = "BMW"
-//            guest?.vehicleYear = "2019"
-//            guest?.vehiclePlateNumber = "LLO2140"
-//            guest?.emailAddress = "someemial@gmail.com"
-//            guest?.phoneNumber = "2340239087"
-//        }
-
-//        pageManager.delegate = self
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: buttonsContainerView.topAnchor)
+        ])
 
         loadInitialPage()
     }
@@ -48,13 +45,18 @@ class CheckinViewController: UIViewController {
     }
 
     func loadInitialPage() {
+        #if DEBUG
+        if guest == nil {
+            guest = Guest(phoneNumber: "2340239087", emailAddress: "someemial@gmail.com", vehicleYear: "2019", vehicleMake: "BMW", vehicleModel: "M5", vehicleColor: "Red", vehiclePlateState: "TX", vehiclePlateNumber: "LLO2140", host: Host())
+        }
+        #endif
         pageManager.startGuestCheckIn(guest)
     }
 
     func setupButtonsView() {
         let show = pageManager.isManualEntry || pageManager.isManualSaving
 
-        let bottomConstraintConstant = show ? 0 : view.safeAreaInsets.bottom + buttonsContainerView.frame.height
+        let bottomConstraintConstant = show ? 0 : (UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0) + buttonsContainerView.frame.height
 
         buttonsViewBottomConstraint.constant = bottomConstraintConstant
 
