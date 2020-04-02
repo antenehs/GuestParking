@@ -15,12 +15,26 @@ class HostManager {
     private init() {}
 
     func latestHost() -> Host? {
-        let firstHost = Host.allHosts().first
+        let latestHost = DiskPersistanceStore.shared.getAllObjectsOf(type: LatestHost.self).first
 
         #if DEBUG
-        if firstHost == nil { return Host() }
+        if latestHost == nil { return Host() }
         #endif
 
-        return firstHost
+        return latestHost?.host
+    }
+
+    func saveHost(_ host: Host) {
+        host.save()
+
+        DiskPersistanceStore.shared.save(object: LatestHost(host: host))
+    }
+}
+
+struct LatestHost: Codable, PersistenceModel {
+    var host: Host
+
+    var primaryKey: String {
+        return "LatestHost"
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,11 +17,12 @@
 		663EFDB42214FAA10074DD55 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EFDB32214FAA10074DD55 /* CheckinViewController.swift */; };
 		6666599023E657BF0014716F /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6666598F23E657BF0014716F /* SettingsManager.swift */; };
 		667BD0DC238B45E000CE4E46 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667BD0DB238B45E000CE4E46 /* Settings.storyboard */; };
+		668B39542433CDDB00DB9BAA /* Register2ParkPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668B39532433CDDB00DB9BAA /* Register2ParkPageManager.swift */; };
+		668B39552433D12000DB9BAA /* ParkingPOAPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */; };
 		668DFA392432E10B00A6B86B /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DFA382432E10B00A6B86B /* Host.swift */; };
 		668DFA3C2432E32900A6B86B /* CodableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DFA3B2432E32900A6B86B /* CodableExtensions.swift */; };
 		669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F323C6CF9A00F3E19F /* NotificationManager.swift */; };
 		669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F523C6D9AC00F3E19F /* SettingsViewController.swift */; };
-		66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */; };
 		66D777412311DA1900D4FF5A /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777402311DA1900D4FF5A /* Guest.swift */; };
 		66D777432311DB5300D4FF5A /* HostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777422311DB5300D4FF5A /* HostManager.swift */; };
 		66D777452311F47600D4FF5A /* GuestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777442311F47600D4FF5A /* GuestManager.swift */; };
@@ -45,6 +46,7 @@
 		663EFDB32214FAA10074DD55 /* CheckinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
 		6666598F23E657BF0014716F /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		667BD0DB238B45E000CE4E46 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		668B39532433CDDB00DB9BAA /* Register2ParkPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register2ParkPageManager.swift; sourceTree = "<group>"; };
 		668DFA382432E10B00A6B86B /* Host.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		668DFA3B2432E32900A6B86B /* CodableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtensions.swift; sourceTree = "<group>"; };
 		669789F323C6CF9A00F3E19F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				661B10EC235E5AEA007788E7 /* ParkingManager.swift */,
 				66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */,
 				661B10EF235E5CA6007788E7 /* ParkingBadgePageManager.swift */,
+				668B39532433CDDB00DB9BAA /* Register2ParkPageManager.swift */,
 			);
 			path = PageManagers;
 			sourceTree = "<group>";
@@ -305,18 +308,19 @@
 				66D777432311DB5300D4FF5A /* HostManager.swift in Sources */,
 				663EFDA42214F6B00074DD55 /* HomeViewController.swift in Sources */,
 				668DFA392432E10B00A6B86B /* Host.swift in Sources */,
+				668B39552433D12000DB9BAA /* ParkingPOAPageManager.swift in Sources */,
 				663EFDB42214FAA10074DD55 /* CheckinViewController.swift in Sources */,
 				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				6666599023E657BF0014716F /* SettingsManager.swift in Sources */,
 				661B10ED235E5AEA007788E7 /* ParkingManager.swift in Sources */,
 				66D777452311F47600D4FF5A /* GuestManager.swift in Sources */,
+				668B39542433CDDB00DB9BAA /* Register2ParkPageManager.swift in Sources */,
 				66D777482313511B00D4FF5A /* DiskPersistenceStore.swift in Sources */,
 				66D777412311DA1900D4FF5A /* Guest.swift in Sources */,
 				66D7774C2313551000D4FF5A /* FileUtils.swift in Sources */,
 				663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */,
 				669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */,
 				668DFA3C2432E32900A6B86B /* CodableExtensions.swift in Sources */,
-				66D7773E2303B57400D4FF5A /* ParkingPOAPageManager.swift in Sources */,
 				66E7344A2433C68F006C0F34 /* Utilities.swift in Sources */,
 				669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */,
 			);

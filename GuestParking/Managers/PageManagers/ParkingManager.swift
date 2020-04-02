@@ -34,10 +34,14 @@ protocol PageManager: class {
     var isManualEntry: Bool { get }
     var isManualSaving: Bool { get }
     var webView: WKWebView! { get }
+    var websiteEntryUrl: String { get }
+
+    var guest: Guest? { get set }
+    var host: Host? { get set }
 
     init(webView: WKWebView)
 
-    func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void)
+    func startGuestCheckIn(_ guest: Guest?)
     func fillDetails()
     func saveForm(completion: @escaping (Bool) -> Void)
     func completedCheckingIn(_ guest: Guest)
@@ -48,6 +52,16 @@ extension PageManager {
     var isManualEntry: Bool { return false }
 
     var isManualSaving: Bool { return false }
+
+    func startGuestCheckIn(_ guest: Guest?) {
+        self.guest = guest
+        self.host = guest?.host ?? HostManager.shared.latestHost()
+
+        let url = URL(string: websiteEntryUrl)!
+
+        let urlRequest = URLRequest(url: url)
+        webView.load(urlRequest)
+    }
 
     func fillHostDetails(_ host: Host) {
         guard let hostDictionary = host.toDictionary() as? [String: Any] else { return }

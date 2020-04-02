@@ -17,12 +17,14 @@ class CheckinViewController: UIViewController {
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    lazy var pageManager = { ParkingBadgePageManager(webView: webView) }()
+    lazy var pageManager = { Register2ParkPageManager(webView: webView) }()
 
     var guest: Guest?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
 
 //        if guest == nil {
 //            guest = Guest()
@@ -46,29 +48,23 @@ class CheckinViewController: UIViewController {
     }
 
     func loadInitialPage() {
-        pageManager.checkGuestIn(guest) { success in
-
-        }
+        pageManager.startGuestCheckIn(guest)
     }
 
     func setupButtonsView() {
         let show = pageManager.isManualEntry || pageManager.isManualSaving
 
-        let bottomConstraintConstant = show ? 0 : (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) + buttonsContainerView.frame.height
+        let bottomConstraintConstant = show ? 0 : view.safeAreaInsets.bottom + buttonsContainerView.frame.height
 
         buttonsViewBottomConstraint.constant = bottomConstraintConstant
 
-        UIView.animate(withDuration: show ? 0.3 : 0) {
-            self.view.layoutIfNeeded()
-        }
+        self.view.layoutIfNeeded()
     }
 
     @IBAction func fillButtonTapped(_ sender: Any) {
 
-//        pageManager.fillGuestDetails(for: guest ?? Guest())
+        pageManager.fillDetails()
     }
-
-    /*
 
     @IBAction func saveGuestButtonTapped(_ sender: Any) {
         saveActivityIndicator.startAnimating()
@@ -78,28 +74,5 @@ class CheckinViewController: UIViewController {
             self.saveActivityIndicator.stopAnimating()
             self.saveButton.setTitle("SAVE GUEST", for: .normal)
         }
-    }
-
-    */
-}
-
-extension CheckinViewController: WKUIDelegate {
-
-}
-
-extension CheckinViewController: PageManagerDelegate {
-    func currentPageChangedTo(_ currentPage: ParkingPOARegistrationPage) {
-
-        /*
-
-        setupButtonsView()
-
-        if currentPage == .codeEntry {
-            pageManager.enterRegistrationCode()
-        } else if currentPage == .userDetail {
-            pageManager.fillGuestDetails(for: guest ?? Guest())
-        }
-
-        */
     }
 }

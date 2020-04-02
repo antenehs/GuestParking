@@ -44,10 +44,6 @@ enum UserDetailInputField: String, FieldKey {
     case vehiclePlateNumber = "cphMainCell_txtNewPermitLicenseNumber"
 }
 
-protocol PageManagerDelegate: class {
-    func currentPageChangedTo(_ currentPage: ParkingPOARegistrationPage)
-}
-
 class ParkingPOAPageManager: NSObject, PageManager {
     typealias HostDetailFields = UserDetailInputField
 
@@ -55,10 +51,13 @@ class ParkingPOAPageManager: NSObject, PageManager {
 
 
     weak var webView: WKWebView!
-    weak var delegate: PageManagerDelegate?
 
     var guest: Guest?
-    private var host: Host?
+    var host: Host?
+
+    var websiteEntryUrl: String {
+        return  "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx"
+    }
 
     var currentPage = ParkingPOARegistrationPage.unknown
 
@@ -75,16 +74,6 @@ class ParkingPOAPageManager: NSObject, PageManager {
 
         self.webView = webView
         self.webView.navigationDelegate = self
-    }
-
-    func checkGuestIn(_ guest: Guest?, completion: (Bool) -> Void) {
-        self.guest = guest
-        self.host = guest?.host ?? HostManager.shared.latestHost()
-
-        let url = URL(string: "http://www.parkingpermitsofamerica.com/PermitRegistration.aspx")!
-
-        let urlRequest = URLRequest(url: url)
-        webView.load(urlRequest)
     }
 
     func getCurrentPage(completion: @escaping (ParkingPOARegistrationPage) -> Void) {
@@ -162,7 +151,6 @@ extension ParkingPOAPageManager: WKNavigationDelegate {
         getCurrentPage { page in
             if page != self.currentPage {
                 self.currentPage = page
-                self.delegate?.currentPageChangedTo(page)
 
                 print("Current Page: \(page)")
             }
