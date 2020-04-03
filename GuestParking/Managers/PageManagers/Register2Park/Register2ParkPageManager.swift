@@ -13,12 +13,12 @@ class Register2ParkPageManager: NSObject, PageManager {
     typealias HostDetailFields = HostDetailInputField
     typealias GuestDetailFields = GuestDetailInputField
 
-    enum HostDetailInputField: String, FieldKey {
+    enum HostDetailInputField: String, FieldKeys {
         case appartmentName = "propertyName"
         case appartmentNumber = "vehicleApt"
     }
 
-    enum GuestDetailInputField: String, FieldKey {
+    enum GuestDetailInputField: String, FieldKeys {
         case vehicleMake = "vehicleMake"
         case vehicleModel = "vehicleModel"
         case vehiclePlateNumber = "vehicleLicensePlate"
@@ -136,7 +136,7 @@ class Register2ParkPageManager: NSObject, PageManager {
     func fillAppartmentSearchTerm() {
         guard let host = self.host else { return }
 
-        fillHostDetails(host)
+        fillHostDetails(host, usingKeys: HostDetailInputField.self)
 
         if guest != nil {
             webView.clickFirstButton(forId: Constants.searchAppartmentButtonId)
@@ -163,11 +163,11 @@ class Register2ParkPageManager: NSObject, PageManager {
 
     func fillGuestDetails() {
         if let host = self.host {
-            fillHostDetails(host)
+            fillHostDetails(host, usingKeys: HostDetailInputField.self)
         }
 
         if let guest = self.guest {
-            fillGuestDetails(guest)
+            fillGuestDetails(guest, usingKeys: GuestDetailFields.self)
 //            self.webView.clickFirstButton(forId: Constants.checkUserInButtonId)
         }
     }
@@ -180,7 +180,8 @@ class Register2ParkPageManager: NSObject, PageManager {
         getCurrentPage { page in
             switch page {
             case .userDetail:
-                self.saveForm { [weak self] (host, guest) in
+                self.saveForm(using: GuestDetailInputField.self,
+                              hostKeys: HostDetailInputField.self) { [weak self] (host, guest) in
                     if var guest = guest, guest.vehiclePlateNumber != "" {
                         guest.firstName = guest.vehicleMake
                         guest.lastName = guest.vehicleModel

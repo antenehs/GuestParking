@@ -31,7 +31,7 @@ enum ParkingPOARegistrationPage: Int {
     }
 }
 
-enum UserDetailInputField: String, FieldKey {
+enum UserDetailInputField: String, FieldKeys {
     case firstName = "cphMainCell_txtNewPermitFirstName"
     case lastName = "cphMainCell_txtNewPermitLastName"
     case residentName = "cphMainCell_txtNewPermitResidentName"
@@ -45,11 +45,6 @@ enum UserDetailInputField: String, FieldKey {
 }
 
 class ParkingPOAPageManager: NSObject, PageManager {
-    typealias HostDetailFields = UserDetailInputField
-
-    typealias GuestDetailFields = UserDetailInputField
-
-
     var webView: WKWebView = WKWebView(frame: .zero)
 
     var guest: Guest?

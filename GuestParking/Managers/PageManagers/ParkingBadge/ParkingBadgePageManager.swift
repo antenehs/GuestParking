@@ -10,10 +10,8 @@ import Foundation
 import WebKit
 
 class ParkingBadgePageManager: NSObject, PageManager {
-    typealias HostDetailFields = HostDetailInputField
-    typealias GuestDetailFields = GuestDetailInputField
 
-    enum HostDetailInputField: String, FieldKey {
+    enum HostDetailInputField: String, FieldKeys {
         case firstName = "tenant_firstname"
         case lastName = "tenant_lastname"
         case appartmentName = "apartment_complex_location"
@@ -21,7 +19,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
         case appartmentNumber = "tenant_number"
     }
 
-    enum GuestDetailInputField: String, FieldKey {
+    enum GuestDetailInputField: String, FieldKeys {
         case vehicleMake = "car_maker"
         case vehicleModel = "car_model"
         case vehiclePlateNumber = "license_plate"
@@ -70,18 +68,19 @@ class ParkingBadgePageManager: NSObject, PageManager {
 
     func fillDetails() {
         if let host = self.host {
-            fillHostDetails(host)
+            fillHostDetails(host, usingKeys: HostDetailInputField.self)
         }
 
         if let guest = self.guest {
-            fillGuestDetails(guest)
+            fillGuestDetails(guest, usingKeys: GuestDetailInputField.self)
             webView.clickFirstButton(forClass: Constants.checkinButtonClass)
         }
     }
 
     func saveForm(completion: @escaping (Bool) -> Void) {
 
-        saveForm { (host, guest) in
+        saveForm(using: GuestDetailInputField.self,
+                 hostKeys: HostDetailInputField.self) { (host, guest) in
             if var guest = guest, guest.vehiclePlateNumber != "" {
                 guest.firstName = guest.vehicleMake
                 guest.lastName = guest.vehicleModel

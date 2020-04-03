@@ -11,25 +11,22 @@ import WebKit
 
 // MARK: - FieldKey protocol
 
-protocol FieldKey: RawRepresentable, CaseIterable, MirrorableEnum {
+protocol FieldKeys: RawRepresentable, CaseIterable, MirrorableEnum {
     var fieldId: String { get }
     var modelProperty: String { get }
 }
 
-extension FieldKey {
+extension FieldKeys {
     var modelProperty: String { return caseName }
 }
 
-extension FieldKey where RawValue == String {
+extension FieldKeys where RawValue == String {
     var fieldId: String { return rawValue }
 }
 
 // MARK: - PageManager protocol
 
 protocol PageManager: class {
-
-    associatedtype HostDetailFields: FieldKey
-    associatedtype GuestDetailFields: FieldKey
 
     var isManualEntry: Bool { get }
     var isManualSaving: Bool { get }
@@ -61,30 +58,32 @@ extension PageManager {
         webView.load(urlRequest)
     }
 
-    func fillHostDetails(_ host: Host) {
+    func fillHostDetails<Keys: FieldKeys>(_ host: Host, usingKeys keys: Keys.Type) {
         guard let hostDictionary = host.toDictionary() as? [String: Any] else { return }
 
-        HostDetailFields.allCases.forEach { fieldKey in
+        keys.allCases.forEach { fieldKey in
             webView.setValue(hostDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
         }
     }
 
-    func fillGuestDetails(_ guest: Guest) {
+    func fillGuestDetails<Keys: FieldKeys>(_ guest: Guest, usingKeys keys: Keys.Type) {
         guard let guestDictionary = guest.toDictionary() as? [String: Any] else { return }
 
-        GuestDetailFields.allCases.forEach { fieldKey in
+        keys.allCases.forEach { fieldKey in
             webView.setValue(guestDictionary[fieldKey.modelProperty] as? String ?? "", toFieldWithId: fieldKey.fieldId)
         }
     }
 
-    func saveForm(completion: @escaping (Host?, Guest?) -> Void) {
+    func saveForm<GuestKeys: FieldKeys, HostKeys: FieldKeys>(using guestKeys: GuestKeys.Type,
+                                                             hostKeys: HostKeys.Type,
+                                                             completion: @escaping (Host?, Guest?) -> Void) {
 
         var guestDictionary = [String: String]()
         var hostDictionary = [String: String]()
 
         let group = DispatchGroup()
 
-        GuestDetailFields.allCases.forEach { [weak self] fieldKey in
+        guestKeys.allCases.forEach { [weak self] fieldKey in
             guard let self = self else { return }
             group.enter()
             self.webView.evaluateJavaScript("document.getElementById('\(fieldKey.fieldId)').value") { value, _ in
@@ -93,7 +92,7 @@ extension PageManager {
             }
         }
 
-        HostDetailFields.allCases.forEach { [weak self] fieldKey in
+        hostKeys.allCases.forEach { [weak self] fieldKey in
             guard let self = self else { return }
             group.enter()
             self.webView.evaluateJavaScript("document.getElementById('\(fieldKey.fieldId)').value") { value, _ in

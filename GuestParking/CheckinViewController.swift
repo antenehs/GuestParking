@@ -17,7 +17,7 @@ class CheckinViewController: UIViewController {
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    var pageManager = Register2ParkPageManager()
+    var pageManager = ParkingSite.register2Park.pageManager()
 
     var guest: Guest?
 
