@@ -57,10 +57,13 @@ class Register2ParkPageManager: NSObject, PageManager {
     private struct Constants {
         static let websiteEntryUrl = "https://www.register2park.com/register"
 
+        static let mainFormId = "form-body"
+
         static let searchAppartmentButtonId = "confirmProperty"
         static let confirmAppartmentButtonId = "confirmPropertySelection"
         static let visitorButtonId = "registrationTypeVisitor"
         static let checkUserInButtonId = "vehicleInformation"
+        static let sendEmailButtonId = "email-confirmation"
 
         static let messageHandlerName = "messageHandler"
 
@@ -168,7 +171,7 @@ class Register2ParkPageManager: NSObject, PageManager {
 
         if let guest = self.guest {
             fillGuestDetails(guest, usingKeys: GuestDetailFields.self)
-//            self.webView.clickFirstButton(forId: Constants.checkUserInButtonId)
+            self.webView.clickFirstButton(forId: Constants.checkUserInButtonId)
         }
     }
 
@@ -260,7 +263,9 @@ class Register2ParkPageManager: NSObject, PageManager {
                 case .userDetail:
                     self.fillGuestDetails()
                 case .completion:
-                    self.parseActivePassMessage()
+                    self.parseActivePassMessage { _ in
+                        if let guest = self.guest { self.completedCheckingIn(guest) }
+                    }
                 case .unknown:
                     print("Current Page: Unknown page!!!!")
                 }
@@ -270,45 +275,61 @@ class Register2ParkPageManager: NSObject, PageManager {
         }
     }
 
-    private func parseActivePassMessage(completion: ((String?) -> Void)? = nil) {
-        guard currentPage == .completion  else { completion?(nil); return }
+    private func parseActivePassMessage(completion: @escaping (String?) -> Void) {
+        guard currentPage == .completion  else { completion(nil); return }
 
-        webView.evaluateJavaScript("document.getElementById('\(Constants.expiryDateFieldId)').innerHTML") { [weak self] value, _ in
-            if let expiryDateString = value as? String {
+        getAllowedHours { [weak self] duration in
+            if let allowedHours = duration { // Expecting hours
+
+                let expiryDate = Date().addingTimeInterval(TimeInterval(allowedHours * 60 * 60))
+                let expiryDateString = Register2ParkPageManager.dateFormatter.string(from: expiryDate)
+
                 self?.guest?.activePassMessage = "Expires On: \(expiryDateString)"
-                self?.guest?.activePassExpiryDate = Register2ParkPageManager.expiryTimeStringToDate(expiryDateString)
+                self?.guest?.activePassExpiryDate = expiryDate
                 self?.guest?.save()
-                if let guest = self?.guest {
-                    self?.completedCheckingIn(guest)
-                }
+
+                completion(expiryDateString)
+            } else {
+                completion(nil)
             }
-            completion?(value as? String)
         }
     }
 
-    // MARK: - Helpers
+    private func getAllowedHours(completion: @escaping (Int?) -> Void) {
+        webView.evaluateJavaScript("document.getElementById('\(Constants.mainFormId)').innerText") { value, _ in
+            let durationRegex = "for \\d{2,3} hours"
 
-    private static func expiryTimeStringToDate(_ dateString: String) -> Date? {
-        // eg. October 22nd 2019, 7:17 pm
-        var components = dateString.components(separatedBy: .whitespaces)
-        if components.count > 1 {
-            var secondComponent = components[1]
-            secondComponent = secondComponent.replacingOccurrences(of: "st", with: "")
-            secondComponent = secondComponent.replacingOccurrences(of: "nd", with: "")
-            secondComponent = secondComponent.replacingOccurrences(of: "rd", with: "")
-            secondComponent = secondComponent.replacingOccurrences(of: "th", with: "")
-            components[1] = secondComponent
+            guard let formText = value as? String,
+                let range = formText.range(of: durationRegex, options: String.CompareOptions.regularExpression) else { completion(nil); return }
+
+            var durationString = String(formText[range]).replacingOccurrences(of: "for ", with: "")
+            durationString = durationString.replacingOccurrences(of: " hours", with: "")
+
+            completion(Int(durationString))
         }
-
-        let modifiedString = components.joined(separator: " ")
-
-        return dateFormatter.date(from: modifiedString)
     }
 
-    static let dateFormatter: DateFormatter = {
+    /// Not used right now but left here for future reference.
+    private func getRegstrationDateStringByRegex(completion: @escaping (String?) -> Void) {
+        webView.getPageSource { source in
+            let dateRegex = "\\d{4}\\-\\d{1,2}\\-\\d{1,2} \\d{1,2}:\\d{1,2} (PM|pM|Pm|pm|am|aM|Am|AM)"
+
+            guard let pageSource = source,
+                let startIndex = pageSource.range(of: "Registration Date/Time:")?.upperBound,
+                let range = pageSource.range(of: dateRegex, options: String.CompareOptions.regularExpression, range: startIndex..<pageSource.endIndex) else
+            {
+                completion(nil)
+                return
+            }
+
+            completion(String(pageSource[range]))
+        }
+    }
+
+    private static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "MMMM dd yyyy, hh:mm a"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
         return dateFormatter
     }()
 }

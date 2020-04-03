@@ -115,5 +115,18 @@ extension PageManager {
             SettingsManager.remindExpiredPassed {
             NotificationManager.scheduleNotification(for: guest)
         }
+
+        if guest.activePassExpiryDate == nil,
+            guest.activePassMessage == nil {
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "dd-MM-yyyy hh:mm a"
+
+            var _guest = guest
+            _guest.activePassMessage = "Registered on \(dateFormatter.string(from: Date()))"
+            _guest.activePassExpiryDate = Date().addingTimeInterval(60 * 60 * 24)
+            _guest.save()
+        }
     }
 }

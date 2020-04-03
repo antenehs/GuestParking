@@ -149,7 +149,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
         return dateFormatter.date(from: modifiedString)
     }
 
-    static let dateFormatter: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateFormat = "MMMM dd yyyy, hh:mm a"
