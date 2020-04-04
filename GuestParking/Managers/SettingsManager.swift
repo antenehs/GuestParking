@@ -10,6 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let remindSettingValueChanged = Notification.Name("remindSettingValueChanged")
+    static let parkingSiteChanged = Notification.Name("parkingSiteChanged")
 }
 
 class SettingsManager {
@@ -21,6 +22,16 @@ class SettingsManager {
         set {
             UserDefaults.standard.set(newValue, forKey: "remindExpiredPassed")
             NotificationCenter.default.post(Notification(name: .remindSettingValueChanged))
+        }
+    }
+
+    static var parkingSite: ParkingSite? {
+        get {
+            return ParkingSite(rawValue: UserDefaults.standard.string(forKey: "selectedParkingSite") ?? "")
+        }
+        set {
+            UserDefaults.standard.set(newValue?.rawValue, forKey: "selectedParkingSite")
+            NotificationCenter.default.post(Notification(name: .parkingSiteChanged))
         }
     }
 }

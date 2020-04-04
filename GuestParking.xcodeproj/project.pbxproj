@@ -25,6 +25,11 @@
 		668DFA3C2432E32900A6B86B /* CodableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668DFA3B2432E32900A6B86B /* CodableExtensions.swift */; };
 		669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F323C6CF9A00F3E19F /* NotificationManager.swift */; };
 		669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669789F523C6D9AC00F3E19F /* SettingsViewController.swift */; };
+		66B22FD924380916004F67DE /* ParkingSite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B22FD824380916004F67DE /* ParkingSite.storyboard */; };
+		66B22FDB2438092F004F67DE /* LaunchControl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B22FDA2438092F004F67DE /* LaunchControl.storyboard */; };
+		66B22FDD24380A5D004F67DE /* LaunchControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B22FDC24380A5D004F67DE /* LaunchControlViewController.swift */; };
+		66B22FDF2438120A004F67DE /* SiteSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B22FDE2438120A004F67DE /* SiteSelectionViewController.swift */; };
+		66B22FE124381804004F67DE /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B22FE024381804004F67DE /* UIColorExtensions.swift */; };
 		66D4BA6E2436858100E8C823 /* ParkingSiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D4BA6D2436858100E8C823 /* ParkingSiteManager.swift */; };
 		66D777412311DA1900D4FF5A /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777402311DA1900D4FF5A /* Guest.swift */; };
 		66D777432311DB5300D4FF5A /* HostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D777422311DB5300D4FF5A /* HostManager.swift */; };
@@ -56,6 +61,11 @@
 		668DFA3B2432E32900A6B86B /* CodableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtensions.swift; sourceTree = "<group>"; };
 		669789F323C6CF9A00F3E19F /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		669789F523C6D9AC00F3E19F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		66B22FD824380916004F67DE /* ParkingSite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ParkingSite.storyboard; sourceTree = "<group>"; };
+		66B22FDA2438092F004F67DE /* LaunchControl.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchControl.storyboard; sourceTree = "<group>"; };
+		66B22FDC24380A5D004F67DE /* LaunchControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlViewController.swift; sourceTree = "<group>"; };
+		66B22FDE2438120A004F67DE /* SiteSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSelectionViewController.swift; sourceTree = "<group>"; };
+		66B22FE024381804004F67DE /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		66D4BA6D2436858100E8C823 /* ParkingSiteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingSiteManager.swift; sourceTree = "<group>"; };
 		66D7773A2303A75500D4FF5A /* Scripts.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Scripts.js; sourceTree = "<group>"; };
 		66D7773D2303B57400D4FF5A /* ParkingPOAPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingPOAPageManager.swift; sourceTree = "<group>"; };
@@ -116,9 +126,11 @@
 			isa = PBXGroup;
 			children = (
 				663EFDA12214F6B00074DD55 /* AppDelegate.swift */,
+				66B22FDC24380A5D004F67DE /* LaunchControlViewController.swift */,
 				663EFDA32214F6B00074DD55 /* HomeViewController.swift */,
 				663EFDB32214FAA10074DD55 /* CheckinViewController.swift */,
 				669789F523C6D9AC00F3E19F /* SettingsViewController.swift */,
+				66B22FDE2438120A004F67DE /* SiteSelectionViewController.swift */,
 				66D7773C2303B54500D4FF5A /* Managers */,
 				66D7773F2311D9F700D4FF5A /* Models */,
 				66D7774A231354F200D4FF5A /* Caching */,
@@ -137,6 +149,8 @@
 				663EFDAA2214F6B20074DD55 /* LaunchScreen.storyboard */,
 				663EFDA52214F6B00074DD55 /* Main.storyboard */,
 				667BD0DB238B45E000CE4E46 /* Settings.storyboard */,
+				66B22FD824380916004F67DE /* ParkingSite.storyboard */,
+				66B22FDA2438092F004F67DE /* LaunchControl.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -172,6 +186,7 @@
 				66E734492433C68F006C0F34 /* Utilities.swift */,
 				6683EAA82435A05C00ADB645 /* WKWebViewUtils.swift */,
 				6683EAAA2435A17A00ADB645 /* RepeatTimer.swift */,
+				66B22FE024381804004F67DE /* UIColorExtensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -288,7 +303,9 @@
 				663EFDAC2214F6B20074DD55 /* LaunchScreen.storyboard in Resources */,
 				663EFDA92214F6B20074DD55 /* Assets.xcassets in Resources */,
 				667BD0DC238B45E000CE4E46 /* Settings.storyboard in Resources */,
+				66B22FDB2438092F004F67DE /* LaunchControl.storyboard in Resources */,
 				663EFDA72214F6B00074DD55 /* Main.storyboard in Resources */,
+				66B22FD924380916004F67DE /* ParkingSite.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,7 +363,9 @@
 				663EFDB42214FAA10074DD55 /* CheckinViewController.swift in Sources */,
 				66D777492313511B00D4FF5A /* PersistentStore.swift in Sources */,
 				6683EAA92435A05C00ADB645 /* WKWebViewUtils.swift in Sources */,
+				66B22FE124381804004F67DE /* UIColorExtensions.swift in Sources */,
 				6666599023E657BF0014716F /* SettingsManager.swift in Sources */,
+				66B22FDF2438120A004F67DE /* SiteSelectionViewController.swift in Sources */,
 				661B10ED235E5AEA007788E7 /* PageManager.swift in Sources */,
 				66D777452311F47600D4FF5A /* GuestManager.swift in Sources */,
 				668B39542433CDDB00DB9BAA /* Register2ParkPageManager.swift in Sources */,
@@ -356,6 +375,7 @@
 				663EFDA22214F6B00074DD55 /* AppDelegate.swift in Sources */,
 				669789F423C6CF9A00F3E19F /* NotificationManager.swift in Sources */,
 				668DFA3C2432E32900A6B86B /* CodableExtensions.swift in Sources */,
+				66B22FDD24380A5D004F67DE /* LaunchControlViewController.swift in Sources */,
 				66E7344A2433C68F006C0F34 /* Utilities.swift in Sources */,
 				669789F623C6D9AC00F3E19F /* SettingsViewController.swift in Sources */,
 				6683EAAB2435A17A00ADB645 /* RepeatTimer.swift in Sources */,

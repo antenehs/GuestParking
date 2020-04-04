@@ -54,6 +54,8 @@ class ParkingBadgePageManager: NSObject, PageManager {
         return Constants.websiteEntryUrl
     }
 
+    private let parkingSite = ParkingSite.parkingBadge
+
     var guest: Guest?
     var host: Host?
 
@@ -80,19 +82,20 @@ class ParkingBadgePageManager: NSObject, PageManager {
     func saveForm(completion: @escaping (Bool) -> Void) {
 
         saveForm(using: GuestDetailInputField.self,
-                 hostKeys: HostDetailInputField.self) { (host, guest) in
+                 hostKeys: HostDetailInputField.self) { [weak self] (host, guest) in
             if var guest = guest, guest.vehiclePlateNumber != "" {
                 guest.firstName = guest.vehicleMake
                 guest.lastName = guest.vehicleModel
                 guest.host = host
+                guest.parkingSite = self?.parkingSite
 
                 guest.save()
-                self.guest = guest
+                self?.guest = guest
 
                 if let host = host {
                     HostManager.shared.saveHost(host)
                 }
-                self.host = host
+                self?.host = host
             }
 
             completion(true)

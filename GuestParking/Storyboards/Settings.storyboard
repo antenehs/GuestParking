@@ -28,7 +28,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expired Pass Reminder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TmM-di-3eC">
-                                                    <rect key="frame" x="14" y="18" width="297" height="20"/>
+                                                    <rect key="frame" x="20" y="18" width="291" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -50,10 +50,30 @@
                                                 <constraint firstItem="BfA-eS-lhP" firstAttribute="top" secondItem="SEu-Rb-IBo" secondAttribute="topMargin" constant="1" id="OpI-sE-Iby"/>
                                                 <constraint firstItem="BfA-eS-lhP" firstAttribute="leading" secondItem="TmM-di-3eC" secondAttribute="trailing" constant="40" id="XqJ-mK-q3y"/>
                                                 <constraint firstItem="TmM-di-3eC" firstAttribute="top" secondItem="SEu-Rb-IBo" secondAttribute="top" constant="18" id="jdV-qA-2fu"/>
-                                                <constraint firstItem="TmM-di-3eC" firstAttribute="leading" secondItem="SEu-Rb-IBo" secondAttribute="leading" constant="14" id="m0H-FP-4wF"/>
+                                                <constraint firstItem="TmM-di-3eC" firstAttribute="leading" secondItem="SEu-Rb-IBo" secondAttribute="leading" constant="20" id="m0H-FP-4wF"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.15686274509803921" green="0.1764705882352941" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="defaultCell" textLabel="TTc-eN-jgb" style="IBUITableViewCellStyleDefault" id="3z7-0T-cgx">
+                                        <rect key="frame" x="0.0" y="111.5" width="414" height="56"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3z7-0T-cgx" id="aQh-Qf-Wis">
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="56"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select Parking Manager" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TTc-eN-jgb">
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="56"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>

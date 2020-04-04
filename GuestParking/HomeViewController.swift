@@ -10,14 +10,28 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    class func intantiateFromStroyBoard() -> HomeViewController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as! HomeViewController
+    }
+
     @IBOutlet var emptyView: UIView!
 
     var allGuests = [Guest]()
+    var parkingSite = SettingsManager.parkingSite ?? ParkingSite.register2Park
 
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.leftBarButtonItem = nil
+
+        NotificationCenter.default.addObserver(forName: .parkingSiteChanged,
+                                               object: nil,
+                                               queue: .main) { [weak self] _ in
+                                                self?.parkingSite = SettingsManager.parkingSite ?? ParkingSite.register2Park
+                                                self?.reloadGuests()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +44,7 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func reloadGuests() {
-        allGuests = Guest.allGuests()
+        allGuests = Guest.allGuests().filter { $0.parkingSite == parkingSite }
 
         allGuests.sort { (g1, g2) -> Bool in
             g1.activePassMessage ?? "zzzz" < g2.activePassMessage ?? "zzzz"
@@ -42,8 +56,10 @@ class HomeViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "checkGuestIn" {
+            let destination = segue.destination as? CheckinViewController
+            destination?.parkingSite = parkingSite
             if let index = tableView.indexPathForSelectedRow {
-                (segue.destination as? CheckinViewController)?.guest = allGuests[index.row]
+                destination?.guest = allGuests[index.row]
             }
         }
     }

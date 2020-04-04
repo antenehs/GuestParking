@@ -23,6 +23,8 @@ struct Guest: Codable {
     var activePassMessage: String?
     var activePassExpiryDate: Date?
 
+    var parkingSite: ParkingSite?
+
     var host: Host?
 
     mutating func activePermitDisplayString() -> String? {

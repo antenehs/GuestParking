@@ -11,19 +11,27 @@ import WebKit
 
 class CheckinViewController: UIViewController {
 
-//    @IBOutlet var webView: WKWebView!
     @IBOutlet var saveActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var saveButton: UIButton!
     @IBOutlet var buttonsContainerView: UIView!
     @IBOutlet var buttonsViewBottomConstraint: NSLayoutConstraint!
 
-    var pageManager = ParkingSite.register2Park.pageManager()
-
+    var parkingSite = ParkingSite.register2Park {
+        didSet {
+            pageManager = parkingSite.pageManager()
+        }
+    }
     var guest: Guest?
+    
+    private var pageManager: PageManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if pageManager == nil {
+            pageManager = parkingSite.pageManager()
+        }
+        
         let webView = pageManager.webView
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
@@ -50,6 +58,7 @@ class CheckinViewController: UIViewController {
             guest = Guest(phoneNumber: "2340239087", emailAddress: "someemial@gmail.com", vehicleYear: "2019", vehicleMake: "BMW", vehicleModel: "M5", vehicleColor: "Red", vehiclePlateState: "TX", vehiclePlateNumber: "LLO2140", host: Host())
         }
         #endif
+        if guest?.parkingSite == nil { guest?.parkingSite = parkingSite }
         pageManager.startGuestCheckIn(guest)
     }
 

@@ -79,6 +79,8 @@ class Register2ParkPageManager: NSObject, PageManager {
     var guest: Guest?
     var host: Host?
 
+    private let parkingSite = ParkingSite.register2Park
+
     private var currentPage = Register2ParkPageManagerPage.unknown
     private var repeatTimer: RepeatTimer?
     private lazy var javascriptMessageHandler: JavascriptMessageHandler = {
@@ -188,6 +190,7 @@ class Register2ParkPageManager: NSObject, PageManager {
                     if var guest = guest, guest.vehiclePlateNumber != "" {
                         guest.firstName = guest.vehicleMake
                         guest.lastName = guest.vehicleModel
+                        guest.parkingSite = self?.parkingSite
 
                         if var host = host {
                             host.appartmentName = self?.savedAppartmentSearchTerm ?? self?.host?.appartmentName

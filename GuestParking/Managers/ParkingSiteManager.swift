@@ -6,9 +6,9 @@
 //  Copyright © 2020 Anteneh Sahledengel. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-enum ParkingSite: String, CaseIterable {
+enum ParkingSite: String, Codable, CaseIterable {
     case parkingBadge = "ParkingBadge"
     case register2Park = "Register2Park"
 
@@ -18,6 +18,13 @@ enum ParkingSite: String, CaseIterable {
             return ParkingBadgePageManager()
         case .register2Park:
             return Register2ParkPageManager()
+        }
+    }
+
+    var logoImage: UIImage? {
+        switch self {
+        case .parkingBadge: return UIImage(named: "parkingbadge_logo")
+        case .register2Park: return UIImage(named: "register2park_logo")
         }
     }
 }
