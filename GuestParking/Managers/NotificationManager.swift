@@ -44,7 +44,7 @@ class NotificationManager: NSObject {
 
         notificationCenter.getNotificationSettings { settings in
             switch settings.authorizationStatus {
-            case .authorized, .provisional: block()
+            case .authorized, .provisional, .ephemeral: block()
             case .notDetermined:
                 self.requestAuthorization { (granted) in
                     guard granted else { return }

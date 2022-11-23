@@ -13,10 +13,15 @@ class LaunchControlViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if SettingsManager.parkingSite != nil {
+        if ParkingSite.allCases.count == 1 {
+            SettingsManager.parkingSite = ParkingSite.allCases.first!
             showHomeController()
         } else {
-            showSiteSelectorController()
+            if SettingsManager.parkingSite != nil {
+                showHomeController()
+            } else {
+                showSiteSelectorController()
+            }
         }
     }
 

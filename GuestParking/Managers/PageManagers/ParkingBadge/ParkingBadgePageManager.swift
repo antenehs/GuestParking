@@ -54,7 +54,7 @@ class ParkingBadgePageManager: NSObject, PageManager {
         return Constants.websiteEntryUrl
     }
 
-    private let parkingSite = ParkingSite.parkingBadge
+    private let parkingSite = ParkingSite.register2Park
 
     var guest: Guest?
     var host: Host?

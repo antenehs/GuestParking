@@ -49,7 +49,7 @@ extension PageManager {
     var isManualSaving: Bool { return false }
 
     func startGuestCheckIn(_ guest: Guest?) {
-        self.guest = guest
+        self.guest = guest ?? Guest()
         self.host = guest?.host ?? HostManager.shared.latestHost()
 
         let url = URL(string: websiteEntryUrl)!

@@ -16,6 +16,7 @@ class Register2ParkPageManager: NSObject, PageManager {
     enum HostDetailInputField: String, FieldKeys {
         case appartmentName = "propertyName"
         case appartmentNumber = "vehicleApt"
+        case parkingCode = "propertyPassword"
     }
 
     enum GuestDetailInputField: String, FieldKeys {
@@ -38,6 +39,7 @@ class Register2ParkPageManager: NSObject, PageManager {
         case appartmentSearch
         case appartmentSearchResult
         case registrationTypeSelection
+        case accessCode
         case userDetail
         case completion
 
@@ -46,6 +48,7 @@ class Register2ParkPageManager: NSObject, PageManager {
             case .appartmentSearch: return "Please start by typing in the name of the property you wish to register your vehicle for."
             case .appartmentSearchResult: return "Please select a matching property from below"
             case .registrationTypeSelection: return "Please select a registration type below:"
+            case .accessCode: return "Please enter in the property access code"
             case .userDetail: return "Please enter in your vehicle's information below:"
             case .completion: return "The vehicle listed below is approved"
             default:
@@ -62,6 +65,8 @@ class Register2ParkPageManager: NSObject, PageManager {
         static let searchAppartmentButtonId = "confirmProperty"
         static let confirmAppartmentButtonId = "confirmPropertySelection"
         static let visitorButtonId = "registrationTypeVisitor"
+        static let accessCodeInputId = "accessCode"
+        static let accessCodeNextButtonId = "propertyPassword"
         static let checkUserInButtonId = "vehicleInformation"
         static let sendEmailButtonId = "email-confirmation"
 
@@ -99,6 +104,10 @@ class Register2ParkPageManager: NSObject, PageManager {
         let scriptSource = """
             $(document).on('click', '#\(Constants.searchAppartmentButtonId)', function() {
                 window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage({ \"\(Constants.searchAppartmentButtonId)\" : $('#propertyName').val() });
+            });
+
+            $(document).on('click', '#\(Constants.accessCodeNextButtonId)', function() {
+                window.webkit.messageHandlers.\(Constants.messageHandlerName).postMessage({ \"\(Constants.accessCodeNextButtonId)\" : $('#accessCode').val() });
             });
 
             $(document).on('click', '#\(Constants.confirmAppartmentButtonId)', function() {
@@ -166,6 +175,14 @@ class Register2ParkPageManager: NSObject, PageManager {
         }
     }
 
+    func fillAccessCode() {
+        if let accessCode = host?.parkingCode {
+
+            webView.setValue(accessCode, toFieldWithId: Constants.accessCodeInputId)
+            webView.clickFirstButton(forId: Constants.accessCodeNextButtonId)
+        }
+    }
+
     func fillGuestDetails() {
         if let host = self.host {
             fillHostDetails(host, usingKeys: HostDetailInputField.self)
@@ -179,6 +196,7 @@ class Register2ParkPageManager: NSObject, PageManager {
 
     private var savedAppartmentSearchTerm: String?
     private var savedAppartmentId: String?
+    private var savedAccessCode: String?
 
     func saveForm(completion: @escaping (Bool) -> Void) {
 
@@ -195,6 +213,7 @@ class Register2ParkPageManager: NSObject, PageManager {
                         if var host = host {
                             host.appartmentName = self?.savedAppartmentSearchTerm ?? self?.host?.appartmentName
                             host.appartmentID = self?.savedAppartmentId ?? self?.host?.appartmentID
+                            host.parkingCode = self?.savedAccessCode ?? self?.host?.parkingCode
                             HostManager.shared.saveHost(host)
                             self?.host = host
                             guest.host = host
@@ -220,6 +239,8 @@ class Register2ParkPageManager: NSObject, PageManager {
                 savedAppartmentSearchTerm = firstPair.value
             } else if firstPair.key == Constants.confirmAppartmentButtonId {
                 savedAppartmentId = firstPair.value
+            } else if firstPair.key == Constants.accessCodeNextButtonId {
+                savedAccessCode = firstPair.value
             }
         } else if (message as? String) == Constants.checkUserInButtonId {
             saveForm { _ in }
@@ -232,11 +253,13 @@ class Register2ParkPageManager: NSObject, PageManager {
             guard let htmlString = htmlString else { completion(.unknown); return }
 
             var currentPage = Register2ParkPageManagerPage.unknown
-            for page in [Register2ParkPageManagerPage.appartmentSearch,
+            // The order in the array is very important. Dont user allCases
+            for page in [Register2ParkPageManagerPage.completion,
+                         Register2ParkPageManagerPage.appartmentSearch,
                          Register2ParkPageManagerPage.appartmentSearchResult,
                          Register2ParkPageManagerPage.registrationTypeSelection,
                          Register2ParkPageManagerPage.userDetail,
-                         Register2ParkPageManagerPage.completion] {
+                         Register2ParkPageManagerPage.accessCode] {
                 if htmlString.contains(page.uniqueIdentifier) {
                     currentPage = page
                     break
@@ -263,6 +286,8 @@ class Register2ParkPageManager: NSObject, PageManager {
                     self.selectAppartmentFromSearch()
                 case .registrationTypeSelection:
                     self.selectParkingType()
+                case .accessCode:
+                    self.fillAccessCode()
                 case .userDetail:
                     self.fillGuestDetails()
                 case .completion:
